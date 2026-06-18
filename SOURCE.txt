@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>合硕地产 | 嘉棠雅序楼盘纵向对比</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Noto Serif SC","Microsoft YaHei",serif}
+html{scroll-behavior:smooth}
+body{background:linear-gradient(to right,#f8f5f0,#f3efe9);min-height:100vh;color:#283241}
+a{color:inherit;text-decoration:none}
+button,select,a{-webkit-tap-highlight-color:transparent}
+.top-bar{display:flex;justify-content:space-between;align-items:center;gap:18px;padding:15px 30px;background:linear-gradient(135deg,#1a2a4a,#2c3e5d);box-shadow:0 4px 15px rgba(0,0,0,.15);position:sticky;top:0;z-index:1000}
+.area-select{padding:10px 18px;background:rgba(255,255,255,.1);color:#d4af37;border:1px solid #d4af37;border-radius:8px;font-size:15px;letter-spacing:1px;outline:none;cursor:pointer}
+.area-select option{color:#333;background:#fff}
+.hesuo-logo{font-size:24px;color:#d4af37;font-weight:600;letter-spacing:6px;text-shadow:0 0 8px rgba(212,175,55,.4);white-space:nowrap}
+.nav{display:flex;justify-content:center;align-items:center;padding:18px 20px;flex-wrap:wrap;gap:10px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.08);position:sticky;top:68px;z-index:999}
+.nav a{padding:12px 22px;border:1px solid #1a2a4a;background:transparent;color:#1a2a4a;font-size:15px;font-weight:500;letter-spacing:1px;cursor:pointer;transition:.35s ease;border-radius:30px}
+.nav a.active,.nav a:hover{background:#1a2a4a;color:#d4af37;border-color:#d4af37;transform:translateY(-2px);box-shadow:0 3px 8px rgba(0,0,0,.15)}
+.hero{max-width:1400px;margin:28px auto 22px;padding:0 24px}
+.hero-panel{background:radial-gradient(circle at 18% 20%,rgba(212,175,55,.20),transparent 28%),linear-gradient(135deg,#1a2a4a,#2c3e5d);border-radius:18px;padding:42px 46px;box-shadow:0 12px 30px rgba(0,0,0,.16);color:#fff;position:relative;overflow:hidden}
+.hero-panel:after{content:"";position:absolute;right:-90px;bottom:-110px;width:320px;height:320px;border-radius:50%;border:1px solid rgba(212,175,55,.35);box-shadow:0 0 0 38px rgba(212,175,55,.05),0 0 0 78px rgba(212,175,55,.03)}
+.eyebrow{color:#d4af37;font-size:15px;letter-spacing:4px;margin-bottom:12px}
+.hero h1{font-size:42px;letter-spacing:5px;margin-bottom:16px;font-weight:600}
+.hero p{max-width:1000px;line-height:1.9;color:rgba(255,255,255,.86);font-size:16px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px;position:relative;z-index:2}
+.hero-actions a{display:inline-flex;align-items:center;justify-content:center;padding:12px 22px;border-radius:999px;border:1px solid rgba(212,175,55,.85);color:#d4af37;background:rgba(255,255,255,.06);transition:.3s ease;font-size:15px;letter-spacing:1px}
+.hero-actions a:hover{background:#d4af37;color:#1a2a4a;transform:translateY(-2px)}
+.stats{max-width:1400px;margin:0 auto 24px;padding:0 24px;display:grid;grid-template-columns:repeat(4,minmax(180px,1fr));gap:16px}
+.stat-card{background:#fff;border-radius:14px;padding:22px;box-shadow:0 5px 15px rgba(0,0,0,.06);border-top:3px solid #d4af37}
+.stat-card strong{display:block;color:#1a2a4a;font-size:28px;margin-bottom:8px}
+.stat-card span{color:#697386;font-size:14px;letter-spacing:1px}
+.section{max-width:1400px;margin:0 auto 40px;padding:0 24px}
+.white-card{background:#fff;border-radius:16px;padding:28px;box-shadow:0 6px 18px rgba(0,0,0,.06);border:1px solid rgba(212,175,55,.18)}
+.section-title{color:#1a2a4a;font-size:26px;font-weight:600;letter-spacing:2px;margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.section-title:before{content:"";width:6px;height:28px;border-radius:6px;background:#d4af37}
+.lead{color:#647084;line-height:1.9;margin-bottom:18px}
+.control-strip{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;background:#fffdf9;border:1px solid #eadfce;border-radius:14px;padding:16px;margin-bottom:18px}
+.toggle-group{display:flex;gap:10px;flex-wrap:wrap}
+.chip-btn{padding:10px 16px;border-radius:999px;border:1px solid #1a2a4a;background:#fff;color:#1a2a4a;cursor:pointer;transition:.25s ease;font-size:14px}
+.chip-btn.active,.chip-btn:hover{background:#1a2a4a;color:#d4af37;border-color:#d4af37}
+.result-text{color:#657082;line-height:1.7;font-size:14px}
+.project-grid{display:grid;grid-template-columns:repeat(4,minmax(220px,1fr));gap:16px}
+.project-card{background:#fff;border:1px solid #eadfce;border-radius:16px;box-shadow:0 5px 16px rgba(0,0,0,.05);overflow:hidden;transition:.25s ease;position:relative}
+.project-card.featured{border-color:#d4af37;box-shadow:0 10px 26px rgba(212,175,55,.16)}
+.project-card:hover{transform:translateY(-3px);box-shadow:0 12px 24px rgba(0,0,0,.1)}
+.project-img{height:180px;background:linear-gradient(135deg,#1a2a4a,#2c3e5d);position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.project-img img{width:100%;height:100%;object-fit:cover;display:none}
+.project-img.has-img img{display:block}
+.img-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:18px;color:rgba(255,255,255,.84);line-height:1.7;font-size:14px;letter-spacing:1px;background:radial-gradient(circle at 28% 25%,rgba(212,175,55,.22),transparent 30%),linear-gradient(135deg,#1a2a4a,#2c3e5d)}
+.project-img.has-img .img-placeholder{display:none}
+.badge{position:absolute;left:12px;top:12px;padding:5px 10px;border-radius:999px;background:#d4af37;color:#1a2a4a;font-size:12px;font-weight:700;z-index:2}
+.project-body{padding:18px}
+.project-body h3{color:#1a2a4a;font-size:20px;margin-bottom:8px}
+.project-body p{color:#647084;line-height:1.7;font-size:13px;margin-bottom:12px}
+.project-price{font-size:22px;color:#1a2a4a;font-weight:800;margin-bottom:6px}
+.project-price span{font-size:13px;color:#8b7751;font-weight:500}
+.tag-row{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.tag{display:inline-flex;padding:4px 9px;border-radius:999px;background:#f8f5f0;border:1px solid #eadfce;color:#8b7751;font-size:12px}
+.guazi-table-wrap{overflow:auto;border-radius:16px;border:1px solid #eadfce;background:#fff}
+table{width:100%;border-collapse:separate;border-spacing:0;min-width:1050px;font-size:14px}
+th{position:sticky;top:0;z-index:3;background:#1a2a4a;color:#d4af37;padding:15px 14px;text-align:left;letter-spacing:1px}
+th:first-child{left:0;z-index:4}
+td{background:#fffdf9;border-bottom:1px solid #eadfce;padding:14px;color:#536075;vertical-align:top;line-height:1.7}
+tr:last-child td{border-bottom:0}
+td:first-child{position:sticky;left:0;background:#f8f5f0;color:#1a2a4a;font-weight:700;z-index:2;min-width:150px}
+.group-row td{background:#1a2a4a;color:#d4af37;font-weight:700;letter-spacing:1px}
+.group-row td:first-child{background:#1a2a4a;color:#d4af37}
+.better{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:999px;background:#eff8ef;color:#267647;font-size:12px;margin-left:6px}
+.warn{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:999px;background:#fff5e5;color:#9a6612;font-size:12px;margin-left:6px}
+.gallery-grid{display:grid;grid-template-columns:repeat(4,minmax(220px,1fr));gap:16px}
+.media-card{background:#fff;border:1px solid #eadfce;border-radius:16px;overflow:hidden;box-shadow:0 5px 16px rgba(0,0,0,.05)}
+.media-box{height:190px;position:relative;background:linear-gradient(135deg,#e9e0cf,#f8f5f0);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.media-box img{width:100%;height:100%;object-fit:cover;display:none}
+.media-box.has-img img{display:block}
+.media-box.has-img .media-placeholder{display:none}
+.media-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:16px;color:#1a2a4a;line-height:1.7;background:radial-gradient(circle at 28% 22%,rgba(212,175,55,.18),transparent 30%),linear-gradient(135deg,#faf7f0,#e7dfd0);flex-direction:column;gap:8px}.media-placeholder span{font-size:12px;color:#647084;line-height:1.6}
+.media-caption{padding:15px}
+.media-caption h3{font-size:18px;color:#1a2a4a;margin-bottom:8px}
+.media-caption p{font-size:13px;color:#647084;line-height:1.75}
+.winner-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+.conclusion-card{background:linear-gradient(135deg,#1a2a4a,#2c3e5d);color:#fff;border-radius:16px;padding:24px;box-shadow:0 8px 20px rgba(0,0,0,.12)}
+.conclusion-card h3{color:#d4af37;font-size:22px;margin-bottom:12px}
+.conclusion-card p{color:rgba(255,255,255,.82);line-height:1.9;margin-bottom:12px}
+.score-list{display:flex;flex-direction:column;gap:12px}
+.score-item{background:#fff;border:1px solid #eadfce;border-radius:14px;padding:15px}
+.score-top{display:flex;justify-content:space-between;gap:10px;color:#1a2a4a;margin-bottom:8px}
+.score-track{height:10px;background:#ebe2d3;border-radius:999px;overflow:hidden}
+.score-fill{height:100%;background:linear-gradient(90deg,#1a2a4a,#d4af37);border-radius:999px}
+.note-box{background:#fffaf0;border:1px solid #eadfce;border-radius:14px;padding:16px;color:#715f42;line-height:1.8;font-size:13px}
+.disclaimer{max-width:1400px;margin:0 auto 30px;padding:0 24px}
+.disclaimer-box{background:#fff;border:1px solid #eadfce;border-radius:12px;padding:18px;color:#7a7280;font-size:12px;line-height:1.8}
+.footer-logo{text-align:center;padding:25px 0;background:linear-gradient(135deg,#1a2a4a,#2c3e5d);margin-top:30px}
+.footer-logo .hesuo-text{font-size:28px;color:#d4af37;letter-spacing:8px;font-weight:600;text-shadow:0 0 10px rgba(212,175,55,.5)}
+.footer-logo p{color:rgba(255,255,255,.72);margin-top:10px;letter-spacing:1px;font-size:13px}
+.hide-same .same-row{display:none}
+
+.land-map-layout{display:grid;grid-template-columns:370px 1fr;gap:22px;align-items:stretch}
+.land-map-panel{background:#fff;border:1px solid #eadfce;border-radius:16px;overflow:hidden;box-shadow:0 5px 16px rgba(0,0,0,.05)}
+.land-map-head{padding:22px;background:linear-gradient(135deg,#1a2a4a,#2c3e5d);color:#fff}
+.land-map-head h3{color:#d4af37;font-size:21px;letter-spacing:2px;margin-bottom:10px}
+.land-map-head p{color:rgba(255,255,255,.78);font-size:14px;line-height:1.8}
+.map-advantage{padding:18px;display:grid;gap:12px;border-bottom:1px solid #eee8df;background:#fffdf9}
+.advantage-item{background:#fff;border:1px solid #eadfce;border-radius:13px;padding:14px}
+.advantage-item b{display:block;color:#1a2a4a;margin-bottom:5px}
+.advantage-item span{color:#647084;font-size:13px;line-height:1.7}
+.land-map-tools{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:18px;border-bottom:1px solid #eee8df}
+.map-tool-btn{padding:10px 8px;border-radius:10px;border:1px solid #1a2a4a;background:#fff;color:#1a2a4a;cursor:pointer;transition:.25s ease;font-size:13px}
+.map-tool-btn.active,.map-tool-btn:hover{background:#1a2a4a;color:#d4af37;border-color:#d4af37}
+.land-project-list{padding:0 18px 18px;display:flex;flex-direction:column;gap:12px;max-height:345px;overflow:auto}
+.land-project-item{background:#fbfaf7;border:1px solid #eadfce;border-radius:14px;padding:14px;cursor:pointer;transition:.25s ease}
+.land-project-item:hover,.land-project-item.active{background:#fffaf0;border-color:#d4af37;transform:translateY(-2px);box-shadow:0 8px 16px rgba(0,0,0,.08)}
+.land-project-item h4{color:#1a2a4a;font-size:17px;margin-bottom:6px}
+.land-project-item p{color:#647084;font-size:13px;line-height:1.7;margin-bottom:8px}
+.land-pill-row{display:flex;gap:7px;flex-wrap:wrap}
+.land-pill{display:inline-flex;padding:4px 9px;border-radius:999px;background:#fff;border:1px solid #eadfce;color:#8b7751;font-size:12px}
+.land-map-card{background:#fff;border:1px solid #eadfce;border-radius:16px;overflow:hidden;box-shadow:0 5px 16px rgba(0,0,0,.05)}
+#compareLandMap{width:100%;height:760px;background:#e5e2d8}
+.land-map-caption{padding:14px 18px;border-top:1px solid #eee3d1;color:#657082;font-size:13px;line-height:1.7;background:#fffdf9}
+.land-price-label{background:rgba(255,255,255,.96);border:1px solid rgba(26,42,74,.20);border-radius:12px;box-shadow:0 3px 12px rgba(0,0,0,.14);color:#1a2a4a;padding:6px 9px;font-size:11px;line-height:1.25;white-space:nowrap;text-align:center;max-width:128px;overflow:hidden}
+.land-price-label b,.land-price-label span{display:block;max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.land-price-label b{color:#1a2a4a;margin-bottom:2px}
+.land-price-label span{color:#8b7751}
+.land-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+.land-detail-box{background:#f8f5f0;border:1px solid #eadfce;border-radius:14px;padding:18px}
+.land-detail-box h3{color:#1a2a4a;font-size:22px;margin-bottom:10px}
+.land-detail-box p{color:#647084;line-height:1.85;font-size:14px}
+.land-kv-grid{display:grid;grid-template-columns:repeat(2,minmax(180px,1fr));gap:12px}
+.land-kv{background:#fff;border:1px solid #eadfce;border-radius:12px;padding:13px}
+.land-kv b{display:block;color:#d4af37;margin-bottom:6px}
+.land-kv span{color:#536075;font-size:13px;line-height:1.6}
+.leaflet-popup-content{font-family:"Noto Serif SC","Microsoft YaHei",serif;line-height:1.7;min-width:250px}
+.popup-title{color:#1a2a4a;font-weight:700;font-size:17px}
+.popup-tag{color:#d4af37;font-weight:700;margin:4px 0 7px}
+
+.floorplan-card{grid-column:span 2}
+.floorplan-card .media-box{height:430px;background:#faf8f4}
+.floorplan-card .media-box img{object-fit:contain;background:#faf8f4;padding:12px}
+.gallery-subtitle{margin:22px 0 14px;color:#1a2a4a;font-size:21px;letter-spacing:1px;display:flex;align-items:center;gap:10px}
+.gallery-subtitle:before{content:"";width:24px;height:2px;background:#d4af37}
+@media(max-width:1100px){.floorplan-card{grid-column:span 1}}
+@media(max-width:720px){.floorplan-card .media-box{height:330px}}
+@media(max-width:1100px){.land-map-layout,.land-detail-grid{grid-template-columns:1fr}#compareLandMap{height:620px}}
+@media(max-width:720px){.land-kv-grid,.land-map-tools{grid-template-columns:1fr}#compareLandMap{height:540px}}
+
+
+.floorplan-card{grid-column:span 2}
+.floorplan-card .media-box{height:430px;background:#faf8f4}
+.floorplan-card .media-box img{object-fit:contain;background:#faf8f4;padding:12px}
+.gallery-subtitle{margin:22px 0 14px;color:#1a2a4a;font-size:21px;letter-spacing:1px;display:flex;align-items:center;gap:10px}
+.gallery-subtitle:before{content:"";width:24px;height:2px;background:#d4af37}
+@media(max-width:1100px){.floorplan-card{grid-column:span 1}}
+@media(max-width:720px){.floorplan-card .media-box{height:330px}}
+@media(max-width:1100px){.stats,.project-grid,.gallery-grid{grid-template-columns:repeat(2,minmax(220px,1fr))}.winner-grid{grid-template-columns:1fr}.nav{top:68px}}
+@media(max-width:720px){.top-bar{flex-direction:column;align-items:stretch}.hesuo-logo{font-size:20px;letter-spacing:3px;text-align:center}.nav{top:126px}.hero-panel{padding:30px 24px}.hero h1{font-size:30px}.stats,.project-grid,.gallery-grid{grid-template-columns:1fr}.white-card{padding:22px}.project-img{height:170px}}
+</style>
+</head>
+<body>
+<div class="top-bar">
+<select class="area-select" id="quickSelect" aria-label="快速跳转">
+<option value="#top">嘉棠雅序 · 楼盘纵向对比</option>
+<option value="#carsLike">楼盘卡片对比</option>
+<option value="#landMapCompare">地块互动地图</option>
+<option value="#matrix">参数矩阵</option>
+<option value="#images">户型与场景</option>
+<option value="#conclusion">选盘结论</option>
+</select>
+<a class="hesuo-logo" href="./index.html">合硕地产 · 全域甄选</a>
+</div>
+<nav class="nav" id="pageNav">
+<a href="#top" class="active">对比首页</a>
+<a href="#carsLike">楼盘卡片</a>
+<a href="#landMapCompare">地块地图</a>
+<a href="#matrix">参数矩阵</a>
+<a href="#images">空间场景</a>
+<a href="#conclusion">选盘结论</a>
+</nav>
+<section class="hero" id="top">
+<div class="hero-panel">
+<div class="eyebrow">JIA TANG YA XU · DIRECT COMPARE · FENGTAI</div>
+<h1>嘉棠雅序楼盘纵向对比</h1>
+<p>用类似“车型对比”的方式，把嘉棠雅序与北京隅·西颂、中建·云境、中海丰和叁号院放在同一张表里，直接比较价格、楼面价、精装、面积段、得房率、总价门槛、配套和产品定位。</p>
+<div class="hero-actions">
+<a href="#matrix">查看参数矩阵</a>
+<a href="#landMapCompare">查看地块地图</a>
+<a href="#images">查看户型与场景</a>
+<a href="./jiatang_yaxu.html">嘉棠雅序配套页</a>
+<a href="./jiatang_yaxu_land_compare.html">地块对比页</a>
+</div>
+</div>
+</section>
+<section class="stats">
+<div class="stat-card"><strong>4盘</strong><span>丰台改善盘横向比较</span></div>
+<div class="stat-card"><strong>约7.0万/㎡</strong><span>嘉棠雅序参考价口径</span></div>
+<div class="stat-card"><strong>99–139㎡</strong><span>嘉棠雅序主力面积段</span></div>
+<div class="stat-card"><strong>23张</strong><span>嘉棠雅序户型与场景展示</span></div>
+</section>
+<section class="section" id="carsLike">
+<div class="white-card">
+<h2 class="section-title">楼盘卡片对比</h2>
+<p class="lead">从价格、面积、产品形态、总价门槛到生活配套，清晰呈现四个丰台改善项目的核心差异。</p>
+<div class="project-grid" id="projectGrid"></div>
+</div>
+</section>
+
+<section class="section" id="landMapCompare">
+  <div class="white-card">
+    <h2 class="section-title">四盘地块互动地图</h2>
+    <p class="lead">四个重点项目在同一张地图中呈现，直观比较地块位置、楼面价与板块关系。嘉棠雅序以金色标注，突出主城改善占位与土地成本优势。</p>
+    <div class="land-map-layout">
+      <aside class="land-map-panel">
+        <div class="land-map-head">
+          <h3>嘉棠雅序优势</h3>
+          <p>同区域改善盘横向比较时，嘉棠雅序的优势集中在土地成本、面积门槛和主城生活界面。</p>
+        </div>
+        <div class="map-advantage">
+          <div class="advantage-item"><b>楼面价约4.20万/㎡</b><span>低于本组竞品约5.00–6.81万/㎡楼面价带，价格组织空间更友好。</span></div>
+          <div class="advantage-item"><b>99㎡起步门槛</b><span>较168㎡起的大平层竞品更容易控制总价，覆盖首改与主城改善客户。</span></div>
+          <div class="advantage-item"><b>玉泉营 / 花乡主城面</b><span>靠近成熟医疗、商业、双轨和滨水公共空间，生活确定性更强。</span></div>
+        </div>
+        <div class="land-map-tools">
+          <button class="map-tool-btn active" data-basemap="satellite">卫星地图</button>
+          <button class="map-tool-btn" data-basemap="standard">标准地图</button>
+          <button class="map-tool-btn active" data-mode="price">售价标签</button>
+          <button class="map-tool-btn" data-mode="floor">楼面价标签</button>
+          <button class="map-tool-btn" id="fitLandAll">显示全部</button>
+          <button class="map-tool-btn" id="focusJiatang">定位嘉棠</button>
+        </div>
+        <div class="land-project-list" id="landProjectList"></div>
+      </aside>
+      <div class="land-map-card">
+        <div id="compareLandMap"></div>
+        <div class="land-map-caption">地图展示四个地块的空间关系与价格对比。金色为嘉棠雅序，蓝色为北京隅·西颂，绿色为中建·云境，红色为中海丰和叁号院。</div>
+      </div>
+    </div>
+    <div class="land-detail-grid">
+      <div class="land-detail-box">
+        <h3 id="landDetailName">北京建工·嘉棠雅序</h3>
+        <p id="landDetailIntro">主城花乡改善地块，土地成本更友好，是本组竞品中的核心参照项目。</p>
+      </div>
+      <div class="land-detail-box">
+        <h3>当前地块信息</h3>
+        <div class="land-kv-grid" id="landDetailGrid"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="matrix">
+<div class="white-card">
+<h2 class="section-title">纵向参数矩阵</h2>
+<div class="control-strip">
+<div class="toggle-group"><button class="chip-btn active" id="showAllBtn">显示全部</button><button class="chip-btn" id="diffOnlyBtn">只看差异</button></div>
+<div class="result-text">围绕价格、楼面价、精装、得房率、面积段、总价门槛和配套资源进行逐项比较。</div>
+</div>
+<div class="guazi-table-wrap" id="matrixWrap"><table id="compareMatrix"></table></div>
+</div>
+</section>
+<section class="section" id="images">
+<div class="white-card">
+<h2 class="section-title">嘉棠雅序户型与生活场景展示</h2>
+<p class="lead">以六组户型图、归家礼序、园林场景、建筑立面和城市界面为主线，呈现嘉棠雅序面向主城改善家庭的空间价值。</p>
+<div class="gallery-grid" id="galleryGrid"></div>
+</div>
+</section>
+
+<section class="section" id="conclusion">
+<div class="white-card">
+<h2 class="section-title">选盘结论</h2>
+<div class="winner-grid">
+<div class="conclusion-card">
+<h3>嘉棠雅序的对比位置</h3>
+<p>在这组丰台改善盘里，嘉棠雅序的优势不只是一项参数，而是“主城生活界面、较友好的土地成本、99–139㎡低总价门槛、双轨与医疗商业配套”共同构成的综合性价比。</p>
+<p>如果客户重视主城成熟生活、控制总价、医疗和双轨便利，嘉棠雅序可以作为第一优先级进入看房清单；如果客户更重视大平层尺度和高端总价段，则中海丰和叁号院更接近高阶改善选择。</p>
+</div>
+<div>
+<div class="score-list" id="scoreList"></div>
+<div class="note-box" style="margin-top:14px">页面中的“得房率”统一按公开资料或现场销售口径标注。未公开统一口径的项目，页面以“待官方确认”显示，避免将市场传言写成确定事实。</div>
+</div>
+</div>
+</div>
+</section>
+<section class="disclaimer"><div class="disclaimer-box"><b>资料说明：</b>本页面为项目对比展示页，价格、备案价、得房率、精装标准、面积段、户型、交付时间、总价测算及配套信息仅供初步比较。最终以政府审批文件、预售证、一房一价、销售合同、现场公示及开发商最新口径为准。</div></section>
+<footer class="footer-logo"><div class="hesuo-text">合硕地产 | 高端楼盘资源运营</div><p>嘉棠雅序 · 楼盘纵向对比 · 图片与参数展示页</p></footer>
+<script>
+const projects=[
+{key:"jiatang",name:"北京建工·嘉棠雅序",short:"嘉棠雅序",badge:"主推对比",district:"丰台·玉泉营/花乡",heroImg:"images/jiatang/cover-main-gate.jpg",imageNote:"主入口门庭以对称礼序与精致立面呈现社区第一界面，建立嘉棠雅序的归家仪式感。",price:"约7.0万/㎡",recordPrice:"备案口径约8.24–8.42万/㎡",floorPrice:"约4.20万/㎡",total:"约693万起（99㎡×约7.0万/㎡）",area:"99 / 109 / 112 / 123 / 139㎡",layout:"三至四室，两卫为主",delivery:"精装口径建议以现场公示为准",rate:"待官方统一口径",floor:"3栋18F小高层 + 8栋洋房",volume:"容积率约2.5",green:"约30%",transit:"花乡东桥站、首经贸站双轨覆盖",medical:"步行范围内可达天坛医院、北京口腔医院",business:"花乡奥莱、天坛生活广场、丽泽天街等",developer:"北京建工地产 × 北京城乡开发",position:"主城改善、总价门槛更友好",score:92,tags:["主城改善","低楼面价","99㎡起","双轨医疗"]},
+{key:"yuxisong",name:"北京隅·西颂",short:"隅西颂",badge:"直接竞品",district:"丰台·科技园东区",heroImg:"images/compare/yuxisong-effect.jpg",imageNote:"丰科东区改善住区，呈现区域居住界面与社区形象。",price:"约7.0–7.8万/㎡",recordPrice:"平台价格口径存在差异",floorPrice:"约5.00万/㎡",total:"约763万起（109㎡×约7.0万/㎡）",area:"约109–154㎡",layout:"三至四室改善产品",delivery:"全屋精装交付资料口径",rate:"约86%–96%资料口径",floor:"7栋8–18层低密住宅",volume:"容积率约2.5",green:"约30%",transit:"丰台科技园、郭公庄片区通勤半径",medical:"依赖区域公共医疗与外溢资源",business:"丰科万达、丰科商圈等",developer:"金隅地产相关主体",position:"得房率口径突出，价格与嘉棠接近",score:86,tags:["得房率突出","精装","丰科东区","109㎡起"]},
+{key:"yunjing",name:"中建·云境",short:"中建云境",badge:"高地价样本",district:"丰台·郭公庄",heroImg:"images/compare/yunjing-effect.jpg",imageNote:"郭公庄改善项目形象，呈现楼栋界面与社区氛围。",price:"约7.5–8.0万/㎡",recordPrice:"市场成交口径随楼栋变化",floorPrice:"约6.81万/㎡",total:"约818万起（109㎡×约7.5万/㎡）",area:"约109–192㎡",layout:"三至四室为主",delivery:"精装/配置以现场公示为准",rate:"最高不超81%市场评论口径",floor:"多栋住宅组团",volume:"资料口径以预售/销售公示为准",green:"约30%上下口径",transit:"郭公庄地铁站东侧，轨道距离较近",medical:"依赖区域公共医疗配套",business:"郭公庄、总部基地及丰科商业资源",developer:"中建东孚 / 中建系",position:"楼面价更高，价格压力更明显",score:78,tags:["郭公庄","高楼面价","109㎡起","轨道近"]},
+{key:"fenghe",name:"中海丰和叁号院",short:"丰和叁号院",badge:"高端改善",district:"丰台·郭公庄/总部基地",heroImg:"images/compare/fenghe-effect.jpg",imageNote:"高端改善大平层生活场景，呈现尺度感与居住品质。",price:"约7.2–9.2万/㎡",recordPrice:"指导价/平台价口径差异较大",floorPrice:"约6.25万/㎡",total:"约1209万起（168㎡×约7.2万/㎡）",area:"约168–262㎡",layout:"四居大平层为主",delivery:"精装/配置以现场公示为准",rate:"未见统一公开口径",floor:"4栋高层 + 3栋洋房资料口径",volume:"容积率约2.2",green:"约30%",transit:"郭公庄北街与福慧路一带",medical:"依赖郭公庄、丰科及主城医疗外溢",business:"总部基地、丰科、郭公庄商业资源",developer:"中海地产相关主体",position:"高端改善，总价门槛明显更高",score:82,tags:["大平层","中海","168㎡起","高端改善"]}
+];
+const matrixRows=[
+{group:"价格与门槛"},{label:"参考单价",key:"price"},{label:"备案/指导价口径",key:"recordPrice"},{label:"楼面价",key:"floorPrice"},{label:"粗算总价门槛",key:"total"},
+{group:"产品参数"},{label:"主力面积段",key:"area"},{label:"户型结构",key:"layout"},{label:"精装口径",key:"delivery"},{label:"得房率",key:"rate"},{label:"楼栋/产品形态",key:"floor"},{label:"容积率",key:"volume"},{label:"绿化率",key:"green",same:true},
+{group:"城市资源"},{label:"轨道交通",key:"transit"},{label:"医疗资源",key:"medical"},{label:"商业资源",key:"business"},{label:"开发商",key:"developer"},{label:"核心定位",key:"position"}];
+const gallery=[{"title":"雅境 99㎡ 三室两厅两卫","path":"images/jiatang/floorplan-099-yajing.jpg","text":"99㎡三居户型以更友好的总价门槛承接主城改善需求，客餐厅、书房与活动空间形成灵活家庭场景。","type":"floorplan"},{"title":"雅悦 109㎡ 四室两厅两卫","path":"images/jiatang/floorplan-109-yayue.jpg","text":"109㎡四居在紧凑尺度中组织更高功能密度，兼顾独立书房、家庭成长和南向采光。","type":"floorplan"},{"title":"雅逸 112㎡ 四室两厅两卫","path":"images/jiatang/floorplan-112-yayi.jpg","text":"112㎡四居强调功能完整与动线分区，适合追求更高房间数量与改善舒适度的家庭。","type":"floorplan"},{"title":"雅颂 123㎡ 四室两厅两卫","path":"images/jiatang/floorplan-123-yasong.jpg","text":"123㎡四居拥有更舒展的餐客厅和多阳台界面，兼顾会客、收纳和家庭成员独立空间。","type":"floorplan"},{"title":"雅观 123㎡ 四室两厅两卫","path":"images/jiatang/floorplan-123-yaguan.jpg","text":"123㎡改善户型强调南向面宽、家庭互动与私密分区，满足三代同堂或成长型家庭需求。","type":"floorplan"},{"title":"雅集 139㎡ 四室两厅两卫","path":"images/jiatang/floorplan-139-yaji.jpg","text":"139㎡四居面向高阶改善家庭，强调宽厅、套房、收纳与更从容的家庭会客尺度。","type":"floorplan"},{"title":"主入口门庭","path":"images/jiatang/cover-main-gate.jpg","text":"以宽阔门庭与对称礼序呈现社区第一界面，强化主城改善项目的归家仪式感。","type":"scene"},{"title":"归家廊厅","path":"images/jiatang/scene-return-lobby.jpg","text":"半开放式廊厅连接门庭、园林与归家动线，形成更有层次的社区入口体验。","type":"scene"},{"title":"滨水城市界面","path":"images/jiatang/view-river-skyline.jpg","text":"建筑、滨水与城市天际线形成开阔视野，呼应项目对主城生活和生态界面的结合。","type":"scene"},{"title":"园林会客厅","path":"images/jiatang/scene-garden-lounge.jpg","text":"中心园林设置休憩会客场景，承载日常散步、邻里交流与家庭陪伴。","type":"scene"},{"title":"城市立面","path":"images/jiatang/facade-skyline-wide.jpg","text":"建筑立面与远处城市天际线相互呼应，强化项目面向主城的形象表达。","type":"scene"},{"title":"社区鸟瞰","path":"images/jiatang/aerial-site-overview.jpg","text":"鸟瞰视角呈现楼栋排布、园林轴线与周边道路关系，帮助直观看到社区空间组织。","type":"scene"},{"title":"城市鸟瞰","path":"images/jiatang/aerial-urban-context.jpg","text":"从城市尺度呈现项目所在片区与周边居住、商业、道路和滨水资源的关系。","type":"scene"},{"title":"庭院水景","path":"images/jiatang/scene-courtyard-pavilion.jpg","text":"庭院、水景与建筑围合出安静的社区内场，营造从城市回到生活的松弛感。","type":"scene"},{"title":"四季花园","path":"images/jiatang/scene-seasonal-garden.jpg","text":"植物、休憩座椅与步行动线共同形成四季可感的园林日常。","type":"scene"},{"title":"儿童活动场","path":"images/jiatang/scene-childrens-garden.jpg","text":"儿童活动空间以明快色彩和趣味设施构成家庭友好的社区活动场景。","type":"scene"},{"title":"林下步道","path":"images/jiatang/scene-forest-walk.jpg","text":"林下步道、自然石景与多层次种植，为日常慢行和归家动线增加绿意。","type":"scene"},{"title":"水院景观","path":"images/jiatang/scene-water-courtyard.jpg","text":"水景、山石和廊下空间形成静谧的园林节点，提升社区内部的度假感。","type":"scene"},{"title":"雅序廊院","path":"images/jiatang/scene-elegant-corridor.jpg","text":"廊院以材质、光影和东方纹样组织空间秩序，强化项目的雅致气质。","type":"scene"},{"title":"入户门厅","path":"images/jiatang/scene-entrance-closeup.jpg","text":"入户门厅通过立面线条与精致门头强化到家感，连接园林与住宅单元。","type":"scene"},{"title":"会所庭院","path":"images/jiatang/scene-clubhouse-courtyard.jpg","text":"会所庭院以水景、树阵与多层平台组织公共活动，丰富社区社交场景。","type":"scene"},{"title":"中央园林轴","path":"images/jiatang/scene-inner-garden-axis.jpg","text":"楼栋之间形成中央园林轴线，兼顾归家视线、社区景观和内部活动空间。","type":"scene"}];
+function escapeHtml(v){return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;")}
+function renderProjectCards(){document.getElementById("projectGrid").innerHTML=projects.map(p=>`<article class="project-card ${p.key==="jiatang"?"featured":""}"><div class="project-img"><span class="badge">${escapeHtml(p.badge)}</span><img src="${escapeHtml(p.heroImg)}" alt="${escapeHtml(p.name)}" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()"><div class="img-placeholder">${escapeHtml(p.name)}<br>${escapeHtml(p.imageNote)}</div></div><div class="project-body"><h3>${escapeHtml(p.name)}</h3><p>${escapeHtml(p.district)}</p><div class="project-price">${escapeHtml(p.price)} <span>参考单价</span></div><p>${escapeHtml(p.total)}</p><div class="tag-row">${p.tags.map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join("")}</div></div></article>`).join("")}
+function renderMatrix(){let html=`<thead><tr><th>对比项</th>${projects.map(p=>`<th>${escapeHtml(p.short)}</th>`).join("")}</tr></thead><tbody>`;matrixRows.forEach(row=>{if(row.group){html+=`<tr class="group-row"><td colspan="${projects.length+1}">${escapeHtml(row.group)}</td></tr>`}else{html+=`<tr class="${row.same?"same-row":""}"><td>${escapeHtml(row.label)}</td>`;projects.forEach(p=>{let value=p[row.key]||"—";let mark="";if(row.key==="floorPrice"&&p.key==="jiatang")mark=`<span class="better">地价低</span>`;if(row.key==="rate"&&p.key==="yuxisong")mark=`<span class="better">资料高</span>`;if(row.key==="rate"&&(p.key==="jiatang"||p.key==="fenghe"))mark=`<span class="warn">待确认</span>`;if(row.key==="total"&&p.key==="fenghe")mark=`<span class="warn">门槛高</span>`;html+=`<td>${escapeHtml(value)}${mark}</td>`});html+=`</tr>`}});html+=`</tbody>`;document.getElementById("compareMatrix").innerHTML=html}
+function renderGallery(){const floorplans=gallery.filter(item=>item.type==="floorplan");const scenes=gallery.filter(item=>item.type!=="floorplan");const card=item=>`<article class="media-card ${item.type==="floorplan"?"floorplan-card":""}"><div class="media-box"><img src="${escapeHtml(item.path)}" alt="${escapeHtml(item.title)}" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()"><div class="media-placeholder">${escapeHtml(item.title)}<br><span>${escapeHtml(item.text)}</span></div></div><div class="media-caption"><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.text)}</p></div></article>`;document.getElementById("galleryGrid").innerHTML=`<h3 class="gallery-subtitle" style="grid-column:1/-1">户型图展示</h3>`+floorplans.map(card).join("")+`<h3 class="gallery-subtitle" style="grid-column:1/-1">项目形象与生活场景</h3>`+scenes.map(card).join("")}
+function renderScores(){document.getElementById("scoreList").innerHTML=projects.map(p=>`<div class="score-item"><div class="score-top"><b>${escapeHtml(p.short)}</b><span>${p.score}/100</span></div><div class="score-track"><div class="score-fill" style="width:${p.score}%"></div></div></div>`).join("")}
+document.getElementById("diffOnlyBtn").addEventListener("click",()=>{document.getElementById("matrixWrap").classList.add("hide-same");document.getElementById("diffOnlyBtn").classList.add("active");document.getElementById("showAllBtn").classList.remove("active")});
+document.getElementById("showAllBtn").addEventListener("click",()=>{document.getElementById("matrixWrap").classList.remove("hide-same");document.getElementById("showAllBtn").classList.add("active");document.getElementById("diffOnlyBtn").classList.remove("active")});
+document.getElementById("quickSelect").addEventListener("change",function(){location.hash=this.value});
+
+const landProjects=[
+{key:"jiatang",name:"北京建工·嘉棠雅序",short:"嘉棠雅序",address:"丰台区玉泉营街道，樊家村路与芳菲路交叉口东南角",floorPrice:"约4.20万/㎡",sellRange:"约7.0万/㎡",basis:"公开四至：东至规划纪家庙西路，南至规划康平北二路，西至规划张新路，北至现状绿地。",color:"#d4af37",logic:"主城花乡改善地块，土地成本更友好，是本组竞品中的核心参照项目。",polygons:[[[116.32053121,39.83660382],[116.32271907,39.83656675],[116.32269226,39.83580469],[116.32048831,39.83586648],[116.32052585,39.83659146]]]},
+{key:"yuxisong",name:"北京隅·西颂",short:"隅西颂",address:"中关村科技园丰台东区三期",floorPrice:"约5.00万/㎡",sellRange:"约7.0–7.8万/㎡",basis:"四至：东至1516-61地块，南至五圈路，西至郭公庄路，北至四合庄六号路。",color:"#2f80ed",logic:"丰台科技园东区改善竞品，土地成本高于嘉棠雅序，具备直接横向比较意义。",polygons:[[[116.31327747,39.82655842],[116.31327747,39.824894],[116.31505779,39.8249764],[116.31501489,39.82654194],[116.31325602,39.8264925]]]},
+{key:"yunjing",name:"中建·云境",short:"中建云境",address:"郭公庄地铁站东约300米处",floorPrice:"约6.81万/㎡",sellRange:"约7.5–8.0万/㎡",basis:"按公开地址“郭公庄地铁站东约300米处”与郭公庄东侧地块形态采点拟合。",color:"#16a085",logic:"郭公庄高位楼面价样本，体现板块内改善项目的土地成本上沿。",polygons:[[[116.30570604,39.81736378],[116.30822638,39.81711656],[116.30824783,39.81538598],[116.30575967,39.81551784]]]},
+{key:"fenghe",name:"中海丰和叁号院",short:"丰和叁号院",address:"郭公庄北街与福慧路交叉口向东约150米",floorPrice:"约6.25万/㎡",sellRange:"约7.2–9.2万/㎡",basis:"1518-614、L08地块；公开报道提到因地下地铁穿行分为东西两个部分。",color:"#c0392b",logic:"高端改善价格带项目，总价与产品面积段更高，用于呈现郭公庄改善市场上沿。",polygons:[[[116.30177426,39.81900503],[116.3053778,39.81900503],[116.30535635,39.81776894],[116.30207455,39.81791728]]]}
+];
+let selectedLandKey="jiatang",landMode="price",landBase="satellite",landGroups={},landMarkers={};
+let compareLandMap=null,landStandardLayer=null,landSatelliteLayer=null,landPolygonLayer=null,landLabelLayer=null;
+
+function landBox(item){const pts=item.polygons.flat();const lngs=pts.map(p=>p[0]),lats=pts.map(p=>p[1]);return{minLng:Math.min(...lngs),maxLng:Math.max(...lngs),minLat:Math.min(...lats),maxLat:Math.max(...lats)}}
+function landLabelPos(item){const b=landBox(item);const h=b.maxLat-b.minLat;const offset=Math.max(h*.65,.00024);return[b.maxLat+offset,(b.minLng+b.maxLng)/2]}
+function landLabelText(item){return landMode==="floor"?item.floorPrice:item.sellRange}
+function landLabelIcon(item){return L.divIcon({className:"",html:`<div class="land-price-label"><b>${escapeHtml(item.short)}</b><span>${escapeHtml(landLabelText(item))}</span></div>`,iconSize:[128,38],iconAnchor:[64,40]})}
+function landStyle(item){return{color:item.color,weight:item.key===selectedLandKey?5:3,fillColor:item.color,fillOpacity:item.key===selectedLandKey?.52:.30,opacity:1}}
+function landPopup(item){return `<div><div class="popup-title">${escapeHtml(item.name)}</div><div class="popup-tag">${escapeHtml(item.address)}</div><div><b>楼面价：</b>${escapeHtml(item.floorPrice)}</div><div><b>售价区间：</b>${escapeHtml(item.sellRange)}</div><div><b>对比解读：</b>${escapeHtml(item.logic)}</div></div>`}
+function initLandMap(){
+  if(compareLandMap || !document.getElementById("compareLandMap") || typeof L==="undefined") return;
+  compareLandMap=L.map("compareLandMap",{zoomControl:true,preferCanvas:false}).setView([39.823,116.314],13);
+  landStandardLayer=L.tileLayer("https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}",{subdomains:"1234",attribution:"&copy; 高德地图",maxZoom:19,minZoom:4,crossOrigin:true});
+  landSatelliteLayer=L.tileLayer("https://webst0{s}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}",{subdomains:"1234",attribution:"&copy; 高德卫星",maxZoom:19,minZoom:4,crossOrigin:true});
+  landSatelliteLayer.addTo(compareLandMap);
+  landPolygonLayer=L.layerGroup().addTo(compareLandMap);
+  landLabelLayer=L.layerGroup().addTo(compareLandMap);
+  drawLandProjects();
+  renderLandList();
+  renderLandDetail();
+  bindLandControls();
+  compareLandMap.on("zoomend moveend",updateLandLabelVisibility);
+  setTimeout(()=>{fitLandAll();updateLandLabelVisibility()},300);
+}
+function drawLandProjects(){
+  landPolygonLayer.clearLayers();landLabelLayer.clearLayers();landGroups={};landMarkers={};
+  landProjects.forEach(item=>{
+    const group=L.featureGroup();
+    item.polygons.forEach(poly=>{
+      const polygon=L.polygon(poly.map(p=>[p[1],p[0]]),landStyle(item));
+      polygon.bindPopup(landPopup(item));
+      polygon.on("click",()=>selectLandProject(item.key,true));
+      polygon.addTo(group);
+    });
+    group.addTo(landPolygonLayer);landGroups[item.key]=group;
+    const marker=L.marker(landLabelPos(item),{icon:landLabelIcon(item),interactive:false});
+    marker.addTo(landLabelLayer);landMarkers[item.key]=marker;
+  });
+}
+function renderLandList(){
+  document.getElementById("landProjectList").innerHTML=landProjects.map(item=>`<div class="land-project-item ${item.key===selectedLandKey?"active":""}" data-key="${item.key}"><h4>${escapeHtml(item.name)}</h4><p>${escapeHtml(item.address)}</p><div class="land-pill-row"><span class="land-pill">售价 ${escapeHtml(item.sellRange)}</span><span class="land-pill">楼面价 ${escapeHtml(item.floorPrice)}</span></div></div>`).join("");
+  document.querySelectorAll(".land-project-item").forEach(card=>card.addEventListener("click",()=>selectLandProject(card.dataset.key,true)));
+}
+function renderLandDetail(){
+  const item=landProjects.find(i=>i.key===selectedLandKey)||landProjects[0];
+  document.getElementById("landDetailName").innerText=item.name;
+  document.getElementById("landDetailIntro").innerText=item.logic;
+  document.getElementById("landDetailGrid").innerHTML=`<div class="land-kv"><b>地块位置</b><span>${escapeHtml(item.address)}</span></div><div class="land-kv"><b>楼面价</b><span>${escapeHtml(item.floorPrice)}</span></div><div class="land-kv"><b>售价区间</b><span>${escapeHtml(item.sellRange)}</span></div><div class="land-kv"><b>地块依据</b><span>${escapeHtml(item.basis)}</span></div>`;
+}
+function updateLandStyles(){
+  landProjects.forEach(item=>{
+    const group=landGroups[item.key];if(group)group.eachLayer(layer=>layer.setStyle(landStyle(item)));
+    const marker=landMarkers[item.key];if(marker)marker.setIcon(landLabelIcon(item));
+  });
+  setTimeout(updateLandLabelVisibility,80);
+}
+function selectLandProject(key,openPopup=false){
+  const item=landProjects.find(i=>i.key===key);if(!item)return;
+  selectedLandKey=key;updateLandStyles();renderLandList();renderLandDetail();
+  const group=landGroups[key];
+  if(group){compareLandMap.fitBounds(group.getBounds().pad(1.6),{padding:[42,42],animate:true});setTimeout(updateLandLabelVisibility,360);if(openPopup){setTimeout(()=>{let opened=false;group.eachLayer(layer=>{if(!opened){layer.openPopup();opened=true}})},260)}}
+}
+function fitLandAll(){const all=L.featureGroup(Object.values(landGroups));compareLandMap.fitBounds(all.getBounds().pad(.8),{padding:[42,42],animate:true});setTimeout(updateLandLabelVisibility,360)}
+function setLandBase(nextBase){
+  landBase=nextBase;
+  if(nextBase==="satellite"){compareLandMap.removeLayer(landStandardLayer);landSatelliteLayer.addTo(compareLandMap)}else{compareLandMap.removeLayer(landSatelliteLayer);landStandardLayer.addTo(compareLandMap)}
+  document.querySelectorAll(".map-tool-btn[data-basemap]").forEach(btn=>btn.classList.toggle("active",btn.dataset.basemap===landBase));
+}
+function setLandMode(nextMode){
+  landMode=nextMode;
+  document.querySelectorAll(".map-tool-btn[data-mode]").forEach(btn=>btn.classList.toggle("active",btn.dataset.mode===landMode));
+  updateLandStyles();
+}
+function boxesOverlap(a,b){return!(a.right<b.left||a.left>b.right||a.bottom<b.top||a.top>b.bottom)}
+function layerPixelBox(bounds){const nw=compareLandMap.latLngToContainerPoint(bounds.getNorthWest());const se=compareLandMap.latLngToContainerPoint(bounds.getSouthEast());return{left:Math.min(nw.x,se.x),right:Math.max(nw.x,se.x),top:Math.min(nw.y,se.y),bottom:Math.max(nw.y,se.y)}}
+function labelPixelBox(marker){const p=compareLandMap.latLngToContainerPoint(marker.getLatLng());return{left:p.x-64,right:p.x+64,top:p.y-40,bottom:p.y}}
+function updateLandLabelVisibility(){
+  if(!compareLandMap)return;
+  const zoom=compareLandMap.getZoom();
+  landProjects.forEach(item=>{const marker=landMarkers[item.key],group=landGroups[item.key];if(!marker||!group)return;const shouldHide=zoom<13||boxesOverlap(labelPixelBox(marker),layerPixelBox(group.getBounds()));marker.setOpacity(shouldHide?0:1)});
+}
+function bindLandControls(){
+  document.querySelectorAll(".map-tool-btn[data-basemap]").forEach(btn=>btn.addEventListener("click",()=>setLandBase(btn.dataset.basemap)));
+  document.querySelectorAll(".map-tool-btn[data-mode]").forEach(btn=>btn.addEventListener("click",()=>setLandMode(btn.dataset.mode)));
+  document.getElementById("fitLandAll").addEventListener("click",fitLandAll);
+  document.getElementById("focusJiatang").addEventListener("click",()=>selectLandProject("jiatang",true));
+}
+
+const sections=["top","carsLike","landMapCompare","matrix","images","conclusion"];
+window.addEventListener("scroll",()=>{const y=window.scrollY+170;let active="top";sections.forEach(id=>{const el=document.getElementById(id);if(el&&el.offsetTop<=y)active=id});document.querySelectorAll("#pageNav a").forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+active))});
+renderProjectCards();renderMatrix();renderGallery();renderScores();initLandMap();
+</script>
+</body>
+</html>
