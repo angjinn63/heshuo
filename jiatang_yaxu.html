@@ -11,9 +11,10 @@
   html { scroll-behavior:smooth; }
   body { background:linear-gradient(to right,#f8f5f0,#f3efe9); min-height:100vh; color:#283241; }
   a { color:inherit; text-decoration:none; }
+  button,select,a { -webkit-tap-highlight-color:transparent; }
 
   .top-bar {
-    display:flex; justify-content:space-between; align-items:center;
+    display:flex; justify-content:space-between; align-items:center; gap:18px;
     padding:15px 30px; background:linear-gradient(135deg,#1a2a4a,#2c3e5d);
     box-shadow:0 4px 15px rgba(0,0,0,.15); position:sticky; top:0; z-index:1000;
   }
@@ -121,13 +122,16 @@
   .legend { padding:0 18px 14px; display:grid; grid-template-columns:1fr 1fr; gap:10px; }
   .legend-item { display:flex; align-items:center; gap:8px; color:#566176; font-size:13px; }
   .legend-dot { width:12px; height:12px; border-radius:50%; display:inline-block; border:2px solid #fff; box-shadow:0 1px 4px rgba(0,0,0,.25); }
-  .map-tools { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; padding:0 18px 18px; }
+  .map-tools { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; padding:18px; border-bottom:1px solid #eee8df; }
   .tool-btn {
     padding:10px 8px; border-radius:10px; border:1px solid #1a2a4a; background:#fff; color:#1a2a4a;
     cursor:pointer; transition:.25s ease; font-size:13px;
   }
-  .tool-btn:hover { background:#1a2a4a; color:#d4af37; }
+  .tool-btn.active,.tool-btn:hover { background:#1a2a4a; color:#d4af37; border-color:#d4af37; }
   .map-status { margin:0 18px 18px; padding:12px; background:#f8f5f0; border:1px solid #eadfce; border-radius:10px; color:#566176; font-size:13px; line-height:1.7; }
+  .map-card { position:relative; min-width:0; }
+  .mobile-map-toolbar,.mobile-category-strip,.mobile-mini-status { display:none; }
+  .mobile-map-btn,.mobile-chip { font-family:"Noto Serif SC","Microsoft YaHei",serif; }
   #map { width:100%; height:700px; border-radius:14px; box-shadow:0 5px 20px rgba(0,0,0,.1); overflow:hidden; background:#eae5da; }
 
   .amenity-grid { display:grid; grid-template-columns:repeat(3,minmax(250px,1fr)); gap:18px; }
@@ -181,15 +185,130 @@
     .brand-grid,.product-grid,.floor-grid { grid-template-columns:repeat(2,minmax(220px,1fr)); }
     .control-panel { min-height:auto; }
     .filters { display:grid; grid-template-columns:repeat(2,minmax(140px,1fr)); }
+    #map { height:620px; }
   }
   @media (max-width:720px) {
-    .top-bar { flex-direction:column; gap:12px; align-items:stretch; }
-    .hesuo-logo { font-size:20px; letter-spacing:3px; text-align:center; }
-    .nav { top:126px; }
-    .hero-panel { padding:30px 24px; }
-    .hero h1 { font-size:32px; }
-    .stats,.amenity-grid,.highlight-list,.value-grid,.spec-list,.brand-grid,.product-grid,.floor-grid { grid-template-columns:1fr; }
-    #map { height:540px; }
+    body { background:#f6f1e8; }
+    .top-bar { flex-direction:column; gap:8px; align-items:stretch; padding:10px 12px; }
+    .area-select { width:100%; font-size:13px; padding:9px 10px; letter-spacing:.5px; }
+    .hesuo-logo { font-size:18px; letter-spacing:2px; text-align:center; }
+    .nav {
+      position:relative; top:auto; justify-content:flex-start; flex-wrap:nowrap; overflow-x:auto;
+      padding:9px 12px; gap:7px; -webkit-overflow-scrolling:touch; scrollbar-width:none;
+    }
+    .nav::-webkit-scrollbar { display:none; }
+    .nav a { flex:0 0 auto; padding:8px 12px; font-size:12px; letter-spacing:.3px; border-radius:999px; }
+    .hero { margin:14px auto 12px; padding:0 10px; }
+    .hero-panel { padding:22px 16px; border-radius:15px; }
+    .eyebrow { font-size:11px; letter-spacing:2px; margin-bottom:8px; }
+    .hero h1 { font-size:25px; letter-spacing:2px; line-height:1.25; margin-bottom:10px; }
+    .hero p { font-size:13px; line-height:1.68; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden; }
+    .hero-actions { gap:8px; margin-top:16px; }
+    .hero-actions a { flex:1 1 calc(50% - 8px); justify-content:center; padding:9px 10px; font-size:12px; letter-spacing:.3px; }
+    .hero-actions a:first-child { flex-basis:100%; }
+    .stats { padding:0 10px; gap:8px; grid-template-columns:repeat(2,minmax(0,1fr)); margin-bottom:16px; }
+    .stat-card { padding:13px 12px; border-radius:12px; }
+    .stat-card strong { font-size:21px; margin-bottom:4px; }
+    .stat-card span { font-size:11px; letter-spacing:.3px; line-height:1.35; }
+    .info, .content-section { margin:0 10px 18px; padding:16px 13px; border-radius:14px; line-height:1.75; }
+    .value-section, .amenity-section, .map-wrap, .disclaimer { padding:0 10px; margin-bottom:18px; }
+    .section-title { font-size:20px; letter-spacing:.8px; margin-bottom:12px; }
+    .section-title::before { width:5px; height:22px; }
+    .overview-grid { grid-template-columns:1fr; gap:10px; }
+    .overview-card { padding:14px; border-radius:12px; }
+    .overview-card h3 { font-size:17px; margin-bottom:8px; }
+    .overview-card p { font-size:13px; line-height:1.65; margin-bottom:6px; }
+    .highlight-list { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+    .highlight-item { padding:10px; font-size:12px; line-height:1.45; }
+    .spec-list { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin-top:10px; }
+    .spec-item { padding:9px 8px; font-size:12px; line-height:1.45; }
+    .value-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+    .value-card { min-height:auto; padding:13px 11px; border-radius:12px; }
+    .value-no { font-size:20px; }
+    .value-card h3 { font-size:15px; margin:5px 0 6px; }
+    .value-card p { font-size:12px; line-height:1.55; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden; }
+    .brand-grid,.product-grid,.floor-grid { grid-template-columns:1fr; gap:9px; }
+    .brand-card,.product-card,.floor-card { padding:14px; border-radius:12px; }
+    .brand-card h3,.product-card h3,.floor-card h3 { font-size:16px; margin-bottom:6px; }
+    .brand-card p,.product-card p,.floor-card p { font-size:12px; line-height:1.62; }
+    .pill-line { gap:6px; margin-top:8px; }
+    .pill { font-size:11px; padding:4px 8px; }
+
+    .map-wrap { padding:0 8px; }
+    .map-layout { display:flex; flex-direction:column; gap:10px; }
+    .map-card {
+      order:1; overflow:hidden; border-radius:18px; background:#fff; border:1px solid rgba(234,223,206,.9);
+      box-shadow:0 8px 24px rgba(0,0,0,.10);
+    }
+    .control-panel { order:2; min-height:auto; border-radius:14px; border:1px solid #eadfce; }
+    .panel-head { display:none; }
+    .control-panel .map-tools { display:none; }
+    .legend { display:none; }
+    .map-status { display:none; }
+    .filters { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); padding:10px; gap:7px; border-bottom:0; }
+    .filter-btn { padding:8px 6px; font-size:12px; text-align:center; border-radius:999px; line-height:1.25; }
+    .filter-btn span { display:none; }
+    #map { height:72vh; min-height:500px; max-height:680px; border-radius:18px; box-shadow:none; }
+    .mobile-map-toolbar {
+      display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:6px; position:absolute; top:8px; left:8px; right:8px;
+      z-index:700; padding:6px; border-radius:15px; background:rgba(255,255,255,.90);
+      border:1px solid rgba(26,42,74,.12); box-shadow:0 8px 22px rgba(0,0,0,.18); backdrop-filter:blur(14px);
+    }
+    .mobile-map-btn {
+      border:1px solid #1a2a4a; background:#fff; color:#1a2a4a; border-radius:999px; padding:9px 5px;
+      font-size:12px; line-height:1; cursor:pointer; font-weight:600;
+    }
+    .mobile-map-btn.active,.mobile-map-btn:hover { background:#1a2a4a; color:#d4af37; border-color:#d4af37; }
+    .mobile-category-strip {
+      display:flex; gap:6px; overflow-x:auto; position:absolute; top:58px; left:8px; right:8px; z-index:700;
+      padding:0 0 4px; -webkit-overflow-scrolling:touch; scrollbar-width:none;
+    }
+    .mobile-category-strip::-webkit-scrollbar { display:none; }
+    .mobile-chip {
+      flex:0 0 auto; border:1px solid rgba(26,42,74,.18); background:rgba(255,255,255,.92); color:#1a2a4a;
+      border-radius:999px; padding:7px 10px; font-size:12px; box-shadow:0 4px 12px rgba(0,0,0,.12); cursor:pointer;
+      backdrop-filter:blur(10px);
+    }
+    .mobile-chip.active { background:#1a2a4a; color:#d4af37; border-color:#d4af37; }
+    .mobile-mini-status {
+      display:flex; gap:6px; align-items:center; position:absolute; left:10px; right:10px; bottom:12px; z-index:700;
+      pointer-events:none; overflow-x:auto;
+    }
+    .mobile-mini-status span {
+      flex:0 0 auto; padding:6px 9px; border-radius:999px; background:rgba(255,255,255,.92);
+      border:1px solid rgba(26,42,74,.14); color:#1a2a4a; font-size:11px; box-shadow:0 4px 12px rgba(0,0,0,.14);
+    }
+    .leaflet-top.leaflet-left { top:104px; }
+    .leaflet-control-zoom a { width:34px; height:34px; line-height:34px; }
+    .leaflet-control-attribution { font-size:9px; }
+    .leaflet-popup-content { min-width:190px; max-width:240px; font-size:12px; line-height:1.55; }
+    .simple-label { font-size:11px; padding:4px 7px; }
+    .amenity-grid { grid-template-columns:1fr; gap:9px; }
+    .amenity-card { padding:13px; border-radius:12px; }
+    .amenity-top { flex-direction:row; align-items:center; gap:8px; margin-bottom:7px; }
+    .tag { font-size:11px; padding:3px 8px; }
+    .distance { font-size:12px; }
+    .amenity-card h3 { font-size:16px; margin-bottom:5px; }
+    .amenity-card p { font-size:12px; line-height:1.55; margin-bottom:3px; }
+    .footer-logo { padding:20px 0; }
+    .footer-logo .hesuo-text { font-size:18px; letter-spacing:3px; padding:0 10px; }
+    .footer-logo p { font-size:12px; padding:0 10px; }
+  }
+  @media (max-width:430px) {
+    .hero h1 { font-size:23px; }
+    .hero-actions a { flex-basis:100%; }
+    .filters { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .spec-list { grid-template-columns:1fr; }
+    .highlight-list { grid-template-columns:1fr; }
+    .stats,.value-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    #map { height:69vh; min-height:470px; }
+    .mobile-map-toolbar { top:7px; left:7px; right:7px; gap:5px; padding:5px; }
+    .mobile-map-btn { font-size:11px; padding:8px 4px; }
+    .mobile-category-strip { top:54px; left:7px; right:7px; }
+    .mobile-chip { font-size:11px; padding:6px 9px; }
+    .mobile-mini-status { bottom:10px; left:8px; right:8px; }
+    .mobile-mini-status span { font-size:10px; padding:5px 8px; }
+    .leaflet-top.leaflet-left { top:98px; }
   }
 </style>
 </head>
@@ -312,16 +431,33 @@
       <div class="filters" id="filterBox"></div>
       <div class="legend" id="legendBox"></div>
       <div class="map-tools">
+        <button class="tool-btn" data-basemap="standard">标准地图</button>
+        <button class="tool-btn active" data-basemap="satellite">卫星地图</button>
         <button class="tool-btn" id="focusProject">定位项目</button>
         <button class="tool-btn" id="fitAll">显示全部</button>
         <button class="tool-btn" id="resetCategory">全部配套</button>
       </div>
       <div class="map-status">
+        当前底图：<b id="baseText">高德卫星地图</b><br>
         当前分类：<b id="currentFilterText">全部配套</b><br>
         当前展示：<b id="currentCountText">全部点位</b>
       </div>
     </aside>
-    <div id="map"></div>
+    <div class="map-card">
+      <div class="mobile-map-toolbar" aria-label="手机地图快捷操作">
+        <button class="mobile-map-btn active" data-basemap="satellite" type="button">卫星</button>
+        <button class="mobile-map-btn" data-basemap="standard" type="button">标准</button>
+        <button class="mobile-map-btn" id="mobileFocusProject" type="button">项目</button>
+        <button class="mobile-map-btn" id="mobileFitAll" type="button">全图</button>
+      </div>
+      <div class="mobile-category-strip" id="mobileCategoryStrip" aria-label="手机地图分类筛选"></div>
+      <div class="mobile-mini-status">
+        <span id="mobileBaseText">卫星地图</span>
+        <span id="mobileCurrentFilterText">全部配套</span>
+        <span id="mobileCurrentCountText">18个点位</span>
+      </div>
+      <div id="map"></div>
+    </div>
   </div>
 </section>
 
@@ -358,8 +494,8 @@
 const DATA = {
   "project": {
     "name": "北京建工·嘉棠雅序",
-    "lat": 39.83736,
-    "lng": 116.32018,
+    "lat": 39.836322,
+    "lng": 116.32174,
     "address": "北京市丰台区玉泉营街道，樊家村路与芳菲路交叉口东南角",
     "actual": "西三环·公园双轨·滨水洋房，建筑面积约99–139㎡雅奢东方健康住区。"
   },
@@ -371,7 +507,7 @@ const DATA = {
       "lng": 116.320064,
       "address": "北京市丰台区房山线花乡东桥站",
       "actual": "房山线站点，项目资料口径约600米步达，连接首经贸、东管头南方向。",
-      "distanceKm": "0.91"
+      "distanceKm": "0.80"
     },
     {
       "name": "首经贸站",
@@ -380,34 +516,34 @@ const DATA = {
       "lng": 116.320206,
       "address": "北京市丰台区首经贸北路、芳菲路交叉口",
       "actual": "10号线与房山线换乘站，项目资料口径约850米，通勤覆盖国贸、三元桥等城市核心方向。",
-      "distanceKm": "0.79"
+      "distanceKm": "0.91"
     },
     {
       "name": "花乡奥莱村",
       "category": "商圈商业",
-      "lat": 39.827437,
-      "lng": 116.325489,
+      "lat": 39.827539,
+      "lng": 116.324208,
       "address": "北京市丰台区白盆窑南四环西路76号",
       "actual": "约400余家品牌门店，承接家庭消费、折扣零售、餐饮休闲等高频生活场景。",
-      "distanceKm": "1.19"
+      "distanceKm": "1.00"
     },
     {
       "name": "天坛生活广场",
       "category": "商圈商业",
-      "lat": 39.83375,
-      "lng": 116.32072,
+      "lat": 39.836157,
+      "lng": 116.31923,
       "address": "北京市丰台区新村街道辛庄路88号",
       "actual": "近距社区型商业与餐饮生活配套，围绕天坛医院片区形成日常服务补充。",
-      "distanceKm": "0.40"
+      "distanceKm": "0.22"
     },
     {
       "name": "龙湖北京丽泽天街",
       "category": "商圈商业",
-      "lat": 39.867351,
-      "lng": 116.334309,
+      "lat": 39.866814,
+      "lng": 116.334443,
       "address": "北京市丰台区丽泽路300号",
       "actual": "约9.2万㎡商业体量，近200家品牌入驻，连接丽泽金融商务区的品质消费场景。",
-      "distanceKm": "3.55"
+      "distanceKm": "3.56"
     },
     {
       "name": "北京荟聚购物中心",
@@ -416,79 +552,79 @@ const DATA = {
       "lng": 116.3265,
       "address": "北京市大兴区西红门镇欣宁街15号院",
       "actual": "约21万㎡商业体量，超400家品牌商户，与西红门山姆共同构成南城大型家庭消费目的地。",
-      "distanceKm": "5.62"
+      "distanceKm": "5.49"
     },
     {
       "name": "山姆会员商店（北京大兴店）",
       "category": "商圈商业",
-      "lat": 39.78595,
-      "lng": 116.33105,
+      "lat": 39.784631,
+      "lng": 116.326246,
       "address": "北京市大兴区西红门镇欣雅街16号院2号楼",
       "actual": "约2万㎡级仓储会员店，补充进口商品、大宗采购与家庭周末采买场景。",
-      "distanceKm": "5.79"
+      "distanceKm": "5.76"
     },
     {
       "name": "丰科万达广场",
       "category": "商圈商业",
-      "lat": 39.824625,
-      "lng": 116.297925,
+      "lat": 39.824424,
+      "lng": 116.298973,
       "address": "北京市丰台区丰科路1号",
       "actual": "丰台科技园成熟商业节点，覆盖餐饮、零售、亲子、娱乐和商务消费。",
-      "distanceKm": "2.37"
+      "distanceKm": "2.35"
     },
     {
       "name": "鑫嘉汇购物中心",
       "category": "商圈商业",
-      "lat": 39.818172,
-      "lng": 116.292819,
+      "lat": 39.817849,
+      "lng": 116.292,
       "address": "北京市丰台区丰葆路88号院1号楼",
       "actual": "丰台科技园片区大型家庭型商业，承接亲子、餐饮、零售与周末消费。",
-      "distanceKm": "3.16"
+      "distanceKm": "3.27"
     },
     {
       "name": "北京天坛医院新院区",
       "category": "医疗资源",
-      "lat": 39.83453,
-      "lng": 116.316451,
+      "lat": 39.833405,
+      "lng": 116.314831,
       "address": "北京市丰台区南四环西路119号",
       "actual": "三甲综合医院资源，以神经科学集群见长，为家庭健康与长辈就医提供强支撑。",
-      "distanceKm": "0.45"
+      "distanceKm": "0.67"
     },
     {
       "name": "北京口腔医院主院区",
       "category": "医疗资源",
-      "lat": 39.838342,
-      "lng": 116.318873,
+      "lat": 39.83661,
+      "lng": 116.317814,
       "address": "北京市丰台区樊家村路9号",
       "actual": "三甲口腔专科医疗资源，2024年底新主院区全面开放，口腔专科诊疗近距可达。",
-      "distanceKm": "0.16"
+      "distanceKm": "0.34"
     },
     {
       "name": "北京大学附属中学丰台学校",
       "category": "学校教育",
-      "lat": 39.8462,
-      "lng": 116.3189,
+      "lat": 39.842352,
+      "lng": 116.320989,
       "address": "北京市丰台区新村街道芳菲路78号",
       "actual": "公办初高中学校资源，项目周边优质教育版图的重要节点。",
-      "distanceKm": "0.99"
+      "distanceKm": "0.67"
     },
     {
       "name": "北京小学丰台万年花城分校",
       "category": "学校教育",
-      "lat": 39.844825,
-      "lng": 116.314308,
+      "lat": 39.846817,
+      "lng": 116.314144,
       "address": "北京市丰台区万年花城万芳园二区4号楼",
       "actual": "丰台区引入名校资源之一，补充周边一站式成长路径。",
-      "distanceKm": "0.97"
+      "distanceKm": "1.34"
     },
     {
       "name": "马草河滨水公共空间",
       "category": "公园滨水",
-      "lat": 39.83502,
-      "lng": 116.31945,
+      "lat": 39.837071,
+      "lng": 116.321794,
       "address": "北京市丰台区马草河沿岸",
       "actual": "沿岸正实施长约1.8公里滨水公共空间改造提升，亲水步道与景观节点串联家门口鲜氧日常。",
-      "distanceKm": "0.27"
+      "distanceKm": "0.08"
     },
     {
       "name": "南苑森林湿地公园",
@@ -497,25 +633,25 @@ const DATA = {
       "lng": 116.387665,
       "address": "北京市丰台区槐房路42号片区",
       "actual": "南城生态绿肺，串联周末骑行、亲子自然、湿地观景与城市鲜氧漫游。",
-      "distanceKm": "6.26"
+      "distanceKm": "6.09"
     },
     {
       "name": "丽泽金融商务区",
       "category": "产业圈层",
-      "lat": 39.86675,
-      "lng": 116.32558,
+      "lat": 39.86683,
+      "lng": 116.326235,
       "address": "北京市丰台区丽泽路、金泽东路片区",
       "actual": "北京金融街2.0的重要承接区，聚焦新兴金融、数字金融、科技金融与国际法商融合场景。",
-      "distanceKm": "3.30"
+      "distanceKm": "3.41"
     },
     {
       "name": "丰台科技园",
       "category": "产业圈层",
-      "lat": 39.8249,
-      "lng": 116.2968,
+      "lat": 39.825141,
+      "lng": 116.297171,
       "address": "北京市丰台区中关村丰台园片区",
       "actual": "中关村最早的一区三园之一，轨道交通、航天航空等产业集群构成高端职住圈层。",
-      "distanceKm": "2.43"
+      "distanceKm": "2.44"
     },
     {
       "name": "金融街",
@@ -524,7 +660,7 @@ const DATA = {
       "lng": 116.3569,
       "address": "北京市西城区金融街片区",
       "actual": "北京传统金融核心区，与丽泽金融商务区共同形成西部金融资源联动。",
-      "distanceKm": "9.36"
+      "distanceKm": "9.43"
     }
   ],
   "stats": {
@@ -568,13 +704,22 @@ const map = L.map('map', {
   preferCanvas:false
 }).setView([DATA.project.lat, DATA.project.lng], 13);
 
-L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', {
+let currentBase = 'satellite';
+const standardLayer = L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', {
   subdomains:'1234',
   attribution:'&copy; 高德地图',
   maxZoom:19,
   minZoom:4,
   crossOrigin:true
-}).addTo(map);
+});
+const satelliteLayer = L.tileLayer('https://webst0{s}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}', {
+  subdomains:'1234',
+  attribution:'&copy; 高德卫星',
+  maxZoom:19,
+  minZoom:4,
+  crossOrigin:true
+});
+satelliteLayer.addTo(map);
 
 const amenityLayer = L.layerGroup().addTo(map);
 const circleLayer = L.layerGroup().addTo(map);
@@ -694,6 +839,22 @@ function renderFilters() {
   });
 }
 
+function renderMobileCategories() {
+  const strip = document.getElementById('mobileCategoryStrip');
+  if(!strip) return;
+  strip.innerHTML = '';
+  CATEGORY_LABELS.forEach(cat => {
+    const count = cat === 'all' ? DATA.amenities.length : DATA.amenities.filter(i => i.category === cat).length;
+    if(cat !== 'all' && count === 0) return;
+    const chip = document.createElement('button');
+    chip.className = 'mobile-chip' + (currentFilter === cat ? ' active' : '');
+    chip.type = 'button';
+    chip.innerHTML = `${escapeHtml(CATEGORY_NAMES[cat] || cat)} · ${count}`;
+    chip.onclick = () => setFilter(cat);
+    strip.appendChild(chip);
+  });
+}
+
 function renderLegend() {
   const box = document.getElementById('legendBox');
   box.innerHTML = Object.keys(CATEGORY_COLORS).map(cat => `
@@ -707,9 +868,15 @@ function setFilter(cat) {
   document.getElementById('currentFilterText').innerText = CATEGORY_NAMES[cat] || cat;
   const visibleCount = cat === 'all' ? DATA.amenities.length : DATA.amenities.filter(i => i.category === cat).length;
   document.getElementById('currentCountText').innerText = visibleCount + ' 个点位';
+  const mobileFilter = document.getElementById('mobileCurrentFilterText');
+  const mobileCount = document.getElementById('mobileCurrentCountText');
+  if(mobileFilter) mobileFilter.innerText = CATEGORY_NAMES[cat] || cat;
+  if(mobileCount) mobileCount.innerText = visibleCount + '个点位';
   renderFilters();
+  renderMobileCategories();
   drawAmenities();
   renderAmenityCards();
+  setTimeout(() => map.invalidateSize(), 80);
   if(cat === 'all') {
     fitAllMarkers(false);
   } else {
@@ -787,13 +954,43 @@ function fitCategory(cat) {
 }
 
 
+function setBase(nextBase) {
+  currentBase = nextBase;
+  if(nextBase === 'satellite') {
+    if(map.hasLayer(standardLayer)) map.removeLayer(standardLayer);
+    if(!map.hasLayer(satelliteLayer)) satelliteLayer.addTo(map);
+    document.getElementById('baseText').innerText = '高德卫星地图';
+    const mobileBase = document.getElementById('mobileBaseText');
+    if(mobileBase) mobileBase.innerText = '卫星地图';
+  } else {
+    if(map.hasLayer(satelliteLayer)) map.removeLayer(satelliteLayer);
+    if(!map.hasLayer(standardLayer)) standardLayer.addTo(map);
+    document.getElementById('baseText').innerText = '高德标准地图';
+    const mobileBase = document.getElementById('mobileBaseText');
+    if(mobileBase) mobileBase.innerText = '标准地图';
+  }
+  document.querySelectorAll('[data-basemap]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.basemap === currentBase);
+  });
+  setTimeout(() => map.invalidateSize(), 80);
+}
+
+document.querySelectorAll('[data-basemap]').forEach(btn => {
+  btn.addEventListener('click', () => setBase(btn.dataset.basemap));
+});
+
 document.getElementById('quickSelect').addEventListener('change', function() { setFilter(this.value); });
-document.getElementById('focusProject').onclick = () => {
+function focusProjectOnMap() {
   map.flyTo([DATA.project.lat, DATA.project.lng], 15);
   projectMarker.openPopup();
-};
+}
+document.getElementById('focusProject').onclick = focusProjectOnMap;
 document.getElementById('fitAll').onclick = () => fitAllMarkers(true);
 document.getElementById('resetCategory').onclick = () => setFilter('all');
+const mobileFocusBtn = document.getElementById('mobileFocusProject');
+const mobileFitBtn = document.getElementById('mobileFitAll');
+if(mobileFocusBtn) mobileFocusBtn.onclick = focusProjectOnMap;
+if(mobileFitBtn) mobileFitBtn.onclick = () => fitAllMarkers(true);
 
 const sections = ['overview','brand','values','mapSection','floorplans','amenities'];
 window.addEventListener('scroll', () => {
@@ -809,13 +1006,18 @@ window.addEventListener('scroll', () => {
 });
 
 window.onload = function() {
+  setBase('satellite');
   renderOverview();
   renderLegend();
   renderFilters();
+  renderMobileCategories();
   drawAmenities();
   renderAmenityCards();
-  fitAllMarkers(false);
-  setTimeout(() => projectMarker.openPopup(), 450);
+  setTimeout(() => {
+    map.invalidateSize();
+    fitAllMarkers(false);
+  }, 180);
+  setTimeout(() => projectMarker.openPopup(), 500);
 };
 </script>
 </body>
