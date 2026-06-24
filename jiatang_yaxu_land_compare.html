@@ -109,6 +109,46 @@ td strong{color:#1a2a4a}
 .footer-logo p{color:rgba(255,255,255,.72);margin-top:10px;letter-spacing:1px;font-size:13px}
 @media(max-width:1100px){.stats,.value-grid{grid-template-columns:repeat(2,minmax(180px,1fr))}.map-layout,.detail-panel,.compare-layout,.auction-grid{grid-template-columns:1fr}.control-panel{min-height:auto}#landMap{height:620px}}
 @media(max-width:720px){.top-bar{flex-direction:column;align-items:stretch}.hesuo-logo{font-size:20px;letter-spacing:3px;text-align:center}.nav{top:126px}.hero-panel{padding:30px 24px}.hero h1{font-size:30px}.stats,.value-grid,.kv-grid,.map-tools{grid-template-columns:1fr}#landMap{height:540px}table{min-width:760px}}
+
+
+/* FINAL COMPACT：地块对比页移动端高密度与地图内控件 */
+.land-mobile-toolbar{display:none}
+.land-card p,.value-card p,.detail-box p{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+@media(max-width:720px){
+  body{background:#f7f3ec}.top-bar{padding:9px 10px;gap:8px}.area-select{padding:8px 11px;font-size:12px}.hesuo-logo{font-size:17px;letter-spacing:2px}.nav{top:96px;justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;padding:8px 10px;gap:7px}.nav::-webkit-scrollbar{display:none}.nav a{flex:0 0 auto;padding:7px 10px;font-size:12px;letter-spacing:0}
+  .hero{margin:12px auto 10px;padding:0 10px}.hero-panel{padding:18px 15px;border-radius:14px}.eyebrow{font-size:10px;letter-spacing:2px;margin-bottom:7px}.hero h1{font-size:24px;letter-spacing:1px;margin-bottom:8px}.hero p{font-size:12px;line-height:1.62}.hero-actions{gap:7px;margin-top:13px}.hero-actions a{flex:1 1 calc(50% - 7px);min-width:120px;padding:8px 9px;font-size:12px;text-align:center}
+  .stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:0 10px;margin-bottom:12px}.stat-card{padding:9px 7px;border-radius:10px}.stat-card strong{font-size:16px;margin-bottom:2px}.stat-card span{font-size:10px;letter-spacing:0;line-height:1.25}.section{padding:0 8px;margin-bottom:16px}.white-card{padding:12px;border-radius:14px}.section-title{font-size:18px;margin-bottom:8px}.section-title:before{height:20px;width:4px}.lead{font-size:12px;line-height:1.55;margin-bottom:10px}
+  .map-layout{display:flex;flex-direction:column;gap:10px}.map-card{order:-1;border-radius:14px;position:relative}#landMap{height:min(72vh,560px);min-height:430px}.map-caption{font-size:10.5px;padding:9px 10px}.control-panel{min-height:auto;border-radius:14px}.panel-head{padding:13px 14px}.panel-head h3{font-size:16px;margin-bottom:4px}.panel-head p{font-size:12px;line-height:1.5}.control-panel>.map-tools{display:none}.land-mobile-toolbar{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;position:absolute;top:8px;left:8px;right:8px;z-index:620;background:rgba(255,255,255,.94);border:1px solid rgba(26,42,74,.12);border-radius:12px;padding:6px;box-shadow:0 4px 14px rgba(0,0,0,.18);backdrop-filter:blur(10px)}.land-mobile-toolbar .tool-btn{padding:8px 3px;font-size:10.5px;border-radius:9px;box-shadow:none}.legend{grid-template-columns:repeat(2,minmax(0,1fr));padding:8px 10px;gap:6px}.legend-item{font-size:10.5px}.land-list{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-height:none;padding:8px 10px}.land-card{padding:10px;border-radius:11px}.land-card h4{font-size:13.5px;margin-bottom:4px}.land-card p{font-size:10.5px;line-height:1.4;margin-bottom:5px}.pill{font-size:9.5px;padding:3px 5px}.status-box{margin:8px 10px 10px;font-size:11px;padding:9px}
+  .detail-panel,.kv-grid{grid-template-columns:1fr;gap:8px}.detail-box{padding:11px;border-radius:11px}.detail-box h3{font-size:16px;margin-bottom:5px}.detail-box p,.kv span{font-size:11px;line-height:1.45}.kv{padding:9px}.value-grid{grid-template-columns:1fr 1fr;gap:8px}.value-card{padding:10px;border-radius:11px}.value-card .num{font-size:18px;margin-bottom:4px}.value-card h3{font-size:14px;margin-bottom:4px}.value-card p{font-size:11px;line-height:1.45}.compare-layout,.auction-grid{grid-template-columns:1fr;gap:10px}.price-bars{gap:8px}.bar-row{padding:9px}.bar-head{font-size:11px}.calc-note{font-size:11px;padding:9px}.auction-card{padding:14px}.auction-card h3{font-size:16px}.auction-card p,.time-item span{font-size:11px;line-height:1.45}.time-item{padding:10px 12px}.footer-logo{padding:18px 10px}.footer-logo .hesuo-text{font-size:19px;letter-spacing:3px}.footer-logo p{font-size:11px}
+}
+@media(max-width:390px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.land-list,.value-grid{grid-template-columns:1fr}.land-mobile-toolbar{grid-template-columns:repeat(3,1fr)}}
+
+
+
+/* V3 MOBILE MAP SAFE AREA + SCROLL LOCK */
+.map-lock-btn{display:none!important}
+@media(max-width:720px){
+  .map-lock-btn{display:inline-flex!important}
+  #map.map-scroll-locked,
+  #landMap.map-scroll-locked,
+  #compareLandMap.map-scroll-locked{touch-action:pan-y!important;cursor:grab}
+  #map.map-scroll-unlocked,
+  #landMap.map-scroll-unlocked,
+  #compareLandMap.map-scroll-unlocked{touch-action:none!important;cursor:move}
+  .leaflet-top.leaflet-left{top:auto!important;bottom:16px!important;left:10px!important}
+  .leaflet-left .leaflet-control{margin-left:0!important;margin-bottom:0!important}
+  .leaflet-control-zoom{box-shadow:0 4px 14px rgba(0,0,0,.22)!important;border-radius:10px!important;overflow:hidden!important}
+  .leaflet-control-zoom a{width:32px!important;height:32px!important;line-height:32px!important;font-size:17px!important}
+  .leaflet-popup-content{max-width:250px!important;font-size:12px!important;line-height:1.55!important}
+}
+
+@media(max-width:720px){
+  .land-mobile-toolbar{grid-template-columns:repeat(4,1fr)!important;left:8px!important;right:8px!important;top:8px!important;gap:4px!important;padding:5px!important}
+  .land-mobile-toolbar .tool-btn{font-size:10px!important;padding:7px 3px!important;line-height:1.05!important;border-radius:8px!important}
+  #landMap{height:min(60vh,480px)!important;min-height:360px!important}
+}
+@media(max-width:370px){.land-mobile-toolbar{grid-template-columns:repeat(3,1fr)!important}}
+
 </style>
 </head>
 <body>
@@ -149,15 +189,15 @@ td strong{color:#1a2a4a}
 <aside class="control-panel">
 <div class="panel-head"><h3>地块选择</h3><p>从主城花乡到丰台科技园、郭公庄片区，四个项目共同构成丰台改善市场的价格对比样本。</p></div>
 <div class="map-tools">
-<button class="tool-btn active" data-basemap="standard">标准地图</button><button class="tool-btn" data-basemap="satellite">卫星地图</button>
+<button class="tool-btn" data-basemap="standard">标准地图</button><button class="tool-btn active" data-basemap="satellite">卫星地图</button>
 <button class="tool-btn active" data-mode="price">售价标签</button><button class="tool-btn" data-mode="floor">楼面价标签</button>
 <button class="tool-btn" id="fitAll">显示全部</button><button class="tool-btn" id="focusSelected">定位当前</button>
 </div>
 <div class="legend" id="legendBox"></div>
 <div class="land-list" id="landList"></div>
-<div class="status-box">当前选中：<b id="selectedText">嘉棠雅序</b><br>当前底图：<b id="baseText">高德标准地图</b></div>
+<div class="status-box">当前选中：<b id="selectedText">嘉棠雅序</b><br>当前底图：<b id="baseText">高德卫星地图</b></div>
 </aside>
-<div class="map-card"><div id="landMap"></div><div class="map-caption">地图色块用于展示项目地块位置关系和价格对比，实际边界、交付标准、销售价格及配套兑现以政府审批文件、现场公示及销售合同为准。</div></div>
+<div class="map-card"><div class="land-mobile-toolbar" aria-label="手机地图快捷操作"><button class="tool-btn active" data-basemap="satellite" type="button">卫星</button><button class="tool-btn" data-basemap="standard" type="button">标准</button><button class="tool-btn active" data-mode="price" type="button">售价</button><button class="tool-btn" data-mode="floor" type="button">楼面价</button><button class="tool-btn" id="landMobileFitAll" type="button">全图</button><button class="tool-btn" id="landMobileFocus" type="button">当前</button><button class="tool-btn map-lock-btn" data-maplock="landcompare" type="button">解锁</button></div><div id="landMap"></div><div class="map-caption">地图色块用于展示项目地块位置关系和价格对比，实际边界、交付标准、销售价格及配套兑现以政府审批文件、现场公示及销售合同为准。</div></div>
 </div>
 <div class="detail-panel">
 <div class="detail-box"><h3 id="detailName">北京建工·嘉棠雅序</h3><p id="detailIntro">西三环南主城改善地块，楼面价约4.2万/㎡，在周边竞品中具备更友好的土地成本基础。</p></div>
@@ -205,7 +245,7 @@ td strong{color:#1a2a4a}
 <footer class="footer-logo"><div class="hesuo-text">合硕地产 | 高端楼盘资源运营</div><p>嘉棠雅序 · 地块价值与竞品价格对比</p></footer>
 <script>
 const LANDS = [{"key":"jiatang","name":"北京建工·嘉棠雅序","short":"嘉棠雅序","address":"丰台区玉泉营街道，樊家村路与芳菲路交叉口东南角","floorPrice":"约4.20万/㎡","sellRange":"约7.0万/㎡；备案口径约8.24–8.42万/㎡","basis":"公开四至：东至规划纪家庙西路，南至规划康平北二路，西至规划张新路，北至现状绿地。","color":"#d4af37","logic":"主城花乡改善地块，土地成本更友好，是本组竞品中的核心参照项目。","floorNum":4.2,"polygons":[[[116.32053121,39.83660382],[116.32271907,39.83656675],[116.32269226,39.83580469],[116.32048831,39.83586648],[116.32052585,39.83659146]]]},{"key":"yuxisong","name":"北京隅·西颂","short":"隅西颂","address":"中关村科技园丰台东区三期","floorPrice":"约5.00万/㎡","sellRange":"约7.0–7.8万/㎡","basis":"四至：东至1516-61地块，南至五圈路，西至郭公庄路，北至四合庄六号路。","color":"#2f80ed","logic":"丰台科技园东区改善竞品，土地成本高于嘉棠雅序，具备直接横向比较意义。","floorNum":5.0,"polygons":[[[116.31327747,39.82655842],[116.31327747,39.824894],[116.31505779,39.8249764],[116.31501489,39.82654194],[116.31325602,39.8264925]]]},{"key":"yunjing","name":"中建·云境","short":"中建云境","address":"郭公庄地铁站东约300米处","floorPrice":"约6.81万/㎡","sellRange":"约7.5–8.0万/㎡","basis":"按公开地址“郭公庄地铁站东约300米处”与郭公庄东侧地块形态采点拟合。","color":"#16a085","logic":"郭公庄高位楼面价样本，体现板块内改善项目的土地成本上沿。","floorNum":6.81,"polygons":[[[116.30570604,39.81736378],[116.30822638,39.81711656],[116.30824783,39.81538598],[116.30575967,39.81551784]]]},{"key":"fenghe","name":"中海丰和叁号院","short":"丰和叁号院","address":"郭公庄北街与福慧路交叉口向东约150米","floorPrice":"约6.25万/㎡","sellRange":"约7.2–9.2万/㎡","basis":"1518-614、L08地块；公开报道提到因地下地铁穿行分为东西两个部分，因此拆为东西两个多边形。","color":"#c0392b","logic":"高端改善价格带项目，总价与产品面积段更高，用于呈现郭公庄改善市场上沿。","floorNum":6.25,"polygons":[[[116.30177426,39.81900503],[116.3053778,39.81900503],[116.30535635,39.81776894],[116.30207455,39.81791728]]]}];
-let selectedKey="jiatang",mode="price",currentBase="standard",polygonGroups={},labelMarkers={};
+let selectedKey="jiatang",mode="price",currentBase="satellite",polygonGroups={},labelMarkers={};
 function escapeHtml(v){return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;")}
 function polygonBox(item){const pts=item.polygons.flat();const lngs=pts.map(p=>p[0]),lats=pts.map(p=>p[1]);return{minLng:Math.min(...lngs),maxLng:Math.max(...lngs),minLat:Math.min(...lats),maxLat:Math.max(...lats)}}
 function labelPosition(item){const b=polygonBox(item);const h=b.maxLat-b.minLat;const offset=Math.max(h*.65,.00024);return[b.maxLat+offset,(b.minLng+b.maxLng)/2]}
@@ -215,7 +255,7 @@ function popupHtml(item){return `<div><div class="popup-title">${escapeHtml(item
 const map=L.map("landMap",{zoomControl:true,preferCanvas:false}).setView([39.823,116.314],13);
 const standardLayer=L.tileLayer("https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}",{subdomains:"1234",attribution:"&copy; 高德地图",maxZoom:19,minZoom:4,crossOrigin:true});
 const satelliteLayer=L.tileLayer("https://webst0{s}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}",{subdomains:"1234",attribution:"&copy; 高德卫星",maxZoom:19,minZoom:4,crossOrigin:true});
-standardLayer.addTo(map);
+satelliteLayer.addTo(map);
 const polygonLayer=L.layerGroup().addTo(map),labelLayer=L.layerGroup().addTo(map);
 function polygonStyle(item){return{color:item.color,weight:item.key===selectedKey?5:3,fillColor:item.color,fillOpacity:item.key===selectedKey?.46:.30,opacity:1}}
 function drawLands(){polygonLayer.clearLayers();labelLayer.clearLayers();polygonGroups={};labelMarkers={};LANDS.forEach(item=>{const group=L.featureGroup();item.polygons.forEach(poly=>{const polygon=L.polygon(poly.map(p=>[p[1],p[0]]),polygonStyle(item));polygon.bindPopup(popupHtml(item));polygon.on("click",()=>selectLand(item.key,true));polygon.addTo(group)});group.addTo(polygonLayer);polygonGroups[item.key]=group;const marker=L.marker(labelPosition(item),{icon:labelIcon(item),interactive:false});marker.addTo(labelLayer);labelMarkers[item.key]=marker})}
@@ -236,10 +276,41 @@ document.querySelectorAll(".tool-btn[data-basemap]").forEach(btn=>btn.addEventLi
 document.querySelectorAll(".tool-btn[data-mode]").forEach(btn=>btn.addEventListener("click",()=>setMode(btn.dataset.mode)));
 document.getElementById("fitAll").addEventListener("click",fitAll);
 document.getElementById("focusSelected").addEventListener("click",()=>selectLand(selectedKey,true));
+const landMobileFitAll=document.getElementById("landMobileFitAll"); if(landMobileFitAll) landMobileFitAll.addEventListener("click",fitAll);
+const landMobileFocus=document.getElementById("landMobileFocus"); if(landMobileFocus) landMobileFocus.addEventListener("click",()=>selectLand(selectedKey,true));
 document.getElementById("quickSelect").addEventListener("change",function(){location.hash=this.value});
 const sections=["top","mapSection","value","compare","auction"];
 window.addEventListener("scroll",()=>{const y=window.scrollY+170;let active="top";sections.forEach(id=>{const el=document.getElementById(id);if(el&&el.offsetTop<=y)active=id});document.querySelectorAll("#pageNav a").forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+active))});
 drawLands();renderLegend();renderList();renderDetail();renderCompare();map.on("zoomend moveend",updateLabelVisibility);setTimeout(()=>{fitAll();updateLabelVisibility()},300);
+
+
+
+/* V3：地块对比手机端地图拖拽锁定 */
+let landCompareMapDragUnlocked=false;
+function syncLandCompareMapLock(){
+  const el=document.getElementById('landMap');
+  if(!el || typeof map==='undefined') return;
+  const isMobile=window.matchMedia('(max-width:720px)').matches;
+  if(isMobile && !landCompareMapDragUnlocked){
+    if(map.dragging) map.dragging.disable();
+    if(map.touchZoom) map.touchZoom.disable();
+    if(map.doubleClickZoom) map.doubleClickZoom.disable();
+    el.classList.add('map-scroll-locked'); el.classList.remove('map-scroll-unlocked');
+  }else{
+    if(map.dragging) map.dragging.enable();
+    if(map.touchZoom) map.touchZoom.enable();
+    if(map.doubleClickZoom) map.doubleClickZoom.enable();
+    el.classList.remove('map-scroll-locked'); el.classList.add('map-scroll-unlocked');
+  }
+  document.querySelectorAll('[data-maplock="landcompare"]').forEach(btn=>{
+    btn.textContent=(isMobile && landCompareMapDragUnlocked)?'锁定':'解锁';
+    btn.classList.toggle('active',isMobile && landCompareMapDragUnlocked);
+  });
+}
+document.querySelectorAll('[data-maplock="landcompare"]').forEach(btn=>btn.addEventListener('click',()=>{landCompareMapDragUnlocked=!landCompareMapDragUnlocked;syncLandCompareMapLock();setTimeout(()=>map.invalidateSize(),80)}));
+window.addEventListener('resize',syncLandCompareMapLock);
+setTimeout(syncLandCompareMapLock,250);
+
 </script>
 </body>
 </html>

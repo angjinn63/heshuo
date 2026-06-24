@@ -116,7 +116,7 @@
     border:1px solid rgba(26,42,74,.35); background:rgba(255,255,255,.94); color:#1a2a4a;
     padding:8px 12px; border-radius:999px; cursor:pointer; font-size:13px; box-shadow:0 2px 8px rgba(0,0,0,.12);
   }
-  .tool-btn:hover { background:#1a2a4a; color:#d4af37; border-color:#d4af37; }
+  .tool-btn:hover,.tool-btn.active { background:#1a2a4a; color:#d4af37; border-color:#d4af37; }
 
   .selected-panel { max-width:1400px; margin:0 auto 40px; padding:0 24px; }
   .selected-card {
@@ -180,6 +180,96 @@
     .filters { grid-template-columns:1fr; }
     #map { height:500px; }
   }
+
+  @media (max-width:720px) {
+    .map-tools { left:8px; right:8px; top:8px; justify-content:flex-start; background:rgba(255,255,255,.92); border:1px solid rgba(26,42,74,.12); border-radius:14px; padding:7px; backdrop-filter:blur(10px); }
+    .tool-btn { flex:1 1 calc(50% - 6px); padding:9px 7px; font-size:12px; }
+    #map { height: min(70vh,540px); min-height:430px; }
+  }
+
+
+  /* FINAL COMPACT：首页卡片信息密度与手机端重排 */
+  .micro-pills{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 10px}
+  .micro-pill{display:inline-flex;align-items:center;padding:3px 7px;border-radius:999px;background:rgba(26,42,74,.06);border:1px solid #eadfce;color:#725f3f;font-size:11px;line-height:1.25}
+  .building-card{padding:12px 13px}
+  .building-card p{margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .card-actions{gap:6px}
+  .mini-btn{padding:7px 10px;font-size:12px}
+  .overview-card{padding:16px}.overview-card p{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:10px}.overview-card .detail-btn{padding:9px 13px;font-size:12px}
+  .detail-item{padding:13px}.selected-main{padding:24px}.selected-detail{padding:22px}
+  @media (max-width:720px){
+    body{background:#f7f3ec}.top-bar{padding:9px 10px;gap:8px}.area-select{padding:8px 11px;font-size:12px}.hesuo-logo{font-size:17px;letter-spacing:2px}
+    .page-nav{top:96px;justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;padding:8px 10px;gap:7px}.page-nav::-webkit-scrollbar{display:none}.page-nav a{flex:0 0 auto;padding:7px 10px;font-size:12px;letter-spacing:0}
+    .hero{margin:12px auto 10px;padding:0 10px}.hero-panel{padding:18px 15px;border-radius:14px}.eyebrow{font-size:10px;letter-spacing:2px;margin-bottom:7px}.hero h1{font-size:26px;letter-spacing:2px;margin-bottom:8px}.hero p{font-size:12px;line-height:1.62}.hero-actions{gap:7px;margin-top:13px}.hero-actions a{flex:1 1 auto;min-width:112px;padding:8px 9px;font-size:12px;text-align:center}
+    .stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:0 10px;margin-bottom:12px}.stat-card{padding:9px 7px;border-radius:10px}.stat-card strong{font-size:18px;margin-bottom:2px}.stat-card span{font-size:10px;letter-spacing:0;line-height:1.25}
+    .section-title{padding:0 10px;margin-bottom:10px}.section-title h2{font-size:19px;margin-bottom:4px}.section-title p{font-size:12px;line-height:1.55}
+    .map-wrap{padding:0 8px;margin-bottom:16px}.map-layout{display:flex;flex-direction:column;gap:10px}.map-card{order:-1;border-radius:14px}.control-panel{min-height:auto;border-radius:14px}.panel-head{padding:13px 14px}.panel-head h2{font-size:16px;margin-bottom:4px}.panel-head p{font-size:12px;line-height:1.5}.filters{display:flex;overflow-x:auto;gap:7px;padding:9px 10px}.filters::-webkit-scrollbar{display:none}.filter-btn{flex:0 0 auto;width:auto;white-space:nowrap;padding:7px 10px;font-size:12px;border-radius:999px}.building-list{max-height:none;padding:9px;display:grid;grid-template-columns:1fr 1fr;gap:8px}.building-card{padding:10px;border-radius:11px}.card-top{gap:5px;margin-bottom:5px}.card-top h3{font-size:14px;line-height:1.25}.area-tag{font-size:10px;padding:2px 6px}.building-card p{font-size:11px;line-height:1.45;margin-bottom:6px;-webkit-line-clamp:2}.micro-pills{gap:4px;margin:5px 0 7px}.micro-pill{font-size:9.5px;padding:2px 5px}.card-actions{gap:5px}.mini-btn{padding:6px 7px;font-size:10.5px;flex:1 1 auto}.mini-btn.gold{font-weight:700}
+    #map{height:min(68vh,520px);min-height:420px}.map-tools{left:8px;right:8px;top:8px;display:grid;grid-template-columns:repeat(4,1fr);gap:5px;background:rgba(255,255,255,.94);border:1px solid rgba(26,42,74,.12);border-radius:12px;padding:6px;box-shadow:0 4px 14px rgba(0,0,0,.18);backdrop-filter:blur(10px)}.tool-btn{padding:8px 4px;font-size:11px;border-radius:10px;box-shadow:none}
+    .selected-panel{padding:0 10px;margin-bottom:16px}.selected-card{border-radius:14px}.selected-main{padding:15px}.selected-main .sub{font-size:10px;letter-spacing:1px;margin-bottom:5px}.selected-main h2{font-size:22px;letter-spacing:1px;margin-bottom:7px}.selected-main p{font-size:12px;line-height:1.55}.selected-main .detail-btn{margin-top:10px}.selected-detail{padding:10px}.detail-grid{grid-template-columns:1fr 1fr;gap:7px}.detail-item{padding:9px;border-radius:10px}.detail-item b{font-size:11px;margin-bottom:3px}.detail-item span{font-size:10.5px;line-height:1.42}.detail-btn{padding:8px 11px;font-size:11px}
+    .overview-section{padding:0 10px;margin-bottom:18px}.overview-grid{grid-template-columns:1fr 1fr;gap:8px}.overview-card{padding:10px;border-radius:11px}.overview-card h3{font-size:14px;margin-bottom:5px}.overview-card p{font-size:11px;line-height:1.45;-webkit-line-clamp:4;margin-bottom:8px}.overview-card .detail-btn{padding:7px 8px;font-size:10.5px;width:100%}.footer-logo{padding:18px 10px}.footer-logo .hesuo-text{font-size:19px;letter-spacing:3px}.footer-logo p{font-size:11px}
+  }
+  @media (max-width:390px){.building-list,.overview-grid,.detail-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.map-tools{grid-template-columns:repeat(2,1fr)}}
+
+
+
+/* V3 MOBILE MAP SAFE AREA + SCROLL LOCK */
+.map-lock-btn{display:none!important}
+@media(max-width:720px){
+  .map-lock-btn{display:inline-flex!important}
+  #map.map-scroll-locked,
+  #landMap.map-scroll-locked,
+  #compareLandMap.map-scroll-locked{touch-action:pan-y!important;cursor:grab}
+  #map.map-scroll-unlocked,
+  #landMap.map-scroll-unlocked,
+  #compareLandMap.map-scroll-unlocked{touch-action:none!important;cursor:move}
+  .leaflet-top.leaflet-left{top:auto!important;bottom:16px!important;left:10px!important}
+  .leaflet-left .leaflet-control{margin-left:0!important;margin-bottom:0!important}
+  .leaflet-control-zoom{box-shadow:0 4px 14px rgba(0,0,0,.22)!important;border-radius:10px!important;overflow:hidden!important}
+  .leaflet-control-zoom a{width:32px!important;height:32px!important;line-height:32px!important;font-size:17px!important}
+  .leaflet-popup-content{max-width:250px!important;font-size:12px!important;line-height:1.55!important}
+}
+
+
+/* V3：首页删除冗余入口后，提高移动端信息密度 */
+@media(max-width:720px){
+  .top-bar{position:sticky;top:0;z-index:1000;display:grid;grid-template-columns:1fr auto;align-items:center;padding:8px 10px!important;gap:8px!important}
+  .top-bar .hesuo-logo{font-size:16px!important;letter-spacing:1px!important;text-align:right;white-space:nowrap}
+  .area-select{min-width:118px;padding:7px 9px!important;font-size:12px!important}
+  .page-nav{top:48px!important;padding:7px 8px!important;gap:6px!important}
+  .page-nav a{padding:7px 9px!important;font-size:11.5px!important;border-radius:999px!important}
+  .hero{margin:10px auto 8px!important;padding:0 8px!important}
+  .hero-panel{padding:14px 13px!important;border-radius:13px!important}
+  .hero-panel:after{display:none!important}
+  .eyebrow{font-size:9.5px!important;letter-spacing:1.2px!important;margin-bottom:5px!important}
+  .hero h1{font-size:24px!important;line-height:1.18!important;letter-spacing:1px!important;margin-bottom:6px!important}
+  .hero p{font-size:11.5px!important;line-height:1.5!important;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .hero-actions{margin-top:10px!important;gap:6px!important}
+  .hero-actions a{flex:1 1 0;min-width:0!important;padding:7px 6px!important;font-size:11px!important;border-radius:10px!important}
+  .stats{padding:0 8px!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:5px!important;margin-bottom:10px!important}
+  .stat-card{padding:8px 4px!important;border-radius:9px!important;border-top-width:2px!important}
+  .stat-card strong{font-size:16px!important;margin-bottom:1px!important}
+  .stat-card span{font-size:9.5px!important;line-height:1.18!important;letter-spacing:0!important}
+  .section-title{padding:0 9px!important;margin-bottom:8px!important}
+  .section-title h2{font-size:18px!important;line-height:1.2!important;margin-bottom:3px!important}
+  .section-title p{font-size:11.5px!important;line-height:1.45!important}
+  .map-wrap{padding:0 6px!important;margin-bottom:12px!important}
+  .map-layout{gap:8px!important}.map-card{order:-1;border-radius:12px!important;overflow:hidden}.control-panel{border-radius:12px!important}
+  #map{height:min(62vh,500px)!important;min-height:380px!important}
+  .map-tools{left:8px!important;right:8px!important;top:8px!important;grid-template-columns:repeat(5,1fr)!important;gap:4px!important;padding:5px!important;border-radius:12px!important}
+  .tool-btn{font-size:10.5px!important;padding:7px 3px!important;line-height:1.1!important;border-radius:9px!important}
+  .panel-head{padding:11px 12px!important}.panel-head h2{font-size:15px!important;margin-bottom:3px!important}.panel-head p{font-size:11px!important;line-height:1.42!important}
+  .filters{padding:8px!important;gap:6px!important}.filter-btn{padding:6px 9px!important;font-size:11.5px!important}
+  .building-list{padding:8px!important;gap:6px!important;grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .building-card{padding:8px!important;border-radius:10px!important}
+  .card-top{gap:4px!important;margin-bottom:4px!important}.card-top h3{font-size:13px!important;line-height:1.2!important}.area-tag{font-size:9.5px!important;padding:2px 5px!important}
+  .building-card p,.overview-card p{font-size:10.5px!important;line-height:1.35!important;margin-bottom:5px!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .micro-pills{gap:3px!important;margin:4px 0!important}.micro-pill{font-size:9px!important;padding:2px 4px!important;line-height:1.15!important}
+  .mini-btn{font-size:10px!important;padding:5px 5px!important;border-radius:8px!important}
+  .selected-panel{padding:0 8px!important;margin-bottom:12px!important}.selected-card{border-radius:12px!important;grid-template-columns:1fr!important}.selected-main{padding:12px!important}.selected-main .sub{font-size:9px!important;letter-spacing:1px!important}.selected-main h2{font-size:20px!important;margin-bottom:4px!important}.selected-main p{font-size:11px!important;line-height:1.42!important;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.selected-detail{padding:8px!important}.detail-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important}.detail-item{padding:7px!important}.detail-item b{font-size:10.5px!important;margin-bottom:2px!important}.detail-item span{font-size:9.8px!important;line-height:1.35!important;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .overview-section{padding:0 8px!important;margin-bottom:14px!important}.overview-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px!important}.overview-card{padding:9px!important;border-radius:10px!important}.overview-card h3{font-size:13px!important;margin-bottom:4px!important}.overview-card .detail-btn{padding:6px!important;font-size:10px!important;border-radius:8px!important}
+}
+@media(max-width:360px){.building-list,.overview-grid{grid-template-columns:1fr!important}.stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}.map-tools{grid-template-columns:repeat(3,1fr)!important}}
+
 </style>
 </head>
 
@@ -213,7 +303,6 @@
     <div class="hero-actions">
       <a href="#mapSection">查看楼盘地图</a>
       <a href="#overviewSection">浏览资源速览</a>
-      <a href="./jiatang_yaxu.html">嘉棠雅序配套地图</a>
     </div>
   </div>
 </section>
@@ -242,8 +331,11 @@
     </aside>
     <div class="map-card">
       <div class="map-tools">
-        <button class="tool-btn" id="fitAll">显示全部</button>
-        <button class="tool-btn" id="focusSelected">定位当前</button>
+        <button class="tool-btn active" data-basemap="satellite" type="button">卫星地图</button>
+        <button class="tool-btn" data-basemap="standard" type="button">标准地图</button>
+        <button class="tool-btn" id="fitAll" type="button">显示全部</button>
+        <button class="tool-btn" id="focusSelected" type="button">定位当前</button>
+        <button class="tool-btn map-lock-btn" data-maplock="home" type="button">解锁拖动</button>
       </div>
       <div id="map"></div>
     </div>
@@ -354,9 +446,14 @@ let circles = {};
 let labelMarkers = {};
 
 const map = L.map('map', { zoomControl:true, preferCanvas:false }).setView([39.9042,116.4074], 10);
-L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', {
+let currentBase = 'satellite';
+const standardLayer = L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', {
   subdomains:'1234', attribution:'&copy; 高德地图', maxZoom:19, minZoom:4, crossOrigin:true
-}).addTo(map);
+});
+const satelliteLayer = L.tileLayer('https://webst0{s}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}', {
+  subdomains:'1234', attribution:'&copy; 高德卫星', maxZoom:19, minZoom:4, crossOrigin:true
+});
+satelliteLayer.addTo(map);
 
 const markerLayer = L.layerGroup().addTo(map);
 const circleLayer = L.layerGroup().addTo(map);
@@ -427,6 +524,7 @@ function renderBuildingList() {
         <span class="area-tag">${escapeHtml(item.area)}</span>
       </div>
       <p>${escapeHtml(item.slogan)}｜${escapeHtml(item.address)}</p>
+      <div class="micro-pills">${(item.highlights || []).slice(0,3).map(h=>`<span class="micro-pill">${escapeHtml(h)}</span>`).join('')}</div>
       <div class="card-actions">
         <button class="mini-btn" type="button">地图定位</button>
         <a class="mini-btn gold" href="${escapeHtml(item.detailMap)}" onclick="event.stopPropagation();">详细配置地图</a>
@@ -440,7 +538,7 @@ function renderOverviewGrid() {
   Object.entries(buildings).forEach(([key,item]) => {
     const card = document.createElement('article');
     card.className = 'overview-card';
-    card.innerHTML = `<h3>${escapeHtml(item.name)}</h3><p>${escapeHtml(item.intro)}</p><a class="detail-btn" href="${escapeHtml(item.detailMap)}">查看详细配置地图</a>`;
+    card.innerHTML = `<div class="card-top"><h3>${escapeHtml(item.name)}</h3><span class="area-tag">${escapeHtml(item.area)}</span></div><p>${escapeHtml(item.intro)}</p><div class="micro-pills">${(item.highlights || []).slice(0,2).map(h=>`<span class="micro-pill">${escapeHtml(h)}</span>`).join('')}</div><a class="detail-btn" href="${escapeHtml(item.detailMap)}">查看详细配置地图</a>`;
     grid.appendChild(card);
   });
 }
@@ -504,6 +602,25 @@ function renderAll() {
   fitVisible();
 }
 
+
+function setBase(nextBase) {
+  currentBase = nextBase;
+  if(nextBase === 'satellite') {
+    if(map.hasLayer(standardLayer)) map.removeLayer(standardLayer);
+    if(!map.hasLayer(satelliteLayer)) satelliteLayer.addTo(map);
+  } else {
+    if(map.hasLayer(satelliteLayer)) map.removeLayer(satelliteLayer);
+    if(!map.hasLayer(standardLayer)) standardLayer.addTo(map);
+  }
+  document.querySelectorAll('[data-basemap]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.basemap === currentBase);
+  });
+}
+
+document.querySelectorAll('[data-basemap]').forEach(btn => {
+  btn.addEventListener('click', () => setBase(btn.dataset.basemap));
+});
+
 document.getElementById('areaSelect').addEventListener('change', function(){
   currentArea = this.value;
   const first = visibleEntries()[0];
@@ -525,6 +642,35 @@ window.onload = function(){
   renderAll();
   switchBuilding(currentKey, false);
 };
+
+
+
+/* V3：手机端默认锁定地图拖拽，解决页面上下滑动被地图截获的问题 */
+let homeMapDragUnlocked=false;
+function syncHomeMapLock(){
+  const el=document.getElementById('map');
+  if(!el || typeof map==='undefined') return;
+  const isMobile=window.matchMedia('(max-width:720px)').matches;
+  if(isMobile && !homeMapDragUnlocked){
+    if(map.dragging) map.dragging.disable();
+    if(map.touchZoom) map.touchZoom.disable();
+    if(map.doubleClickZoom) map.doubleClickZoom.disable();
+    el.classList.add('map-scroll-locked'); el.classList.remove('map-scroll-unlocked');
+  }else{
+    if(map.dragging) map.dragging.enable();
+    if(map.touchZoom) map.touchZoom.enable();
+    if(map.doubleClickZoom) map.doubleClickZoom.enable();
+    el.classList.remove('map-scroll-locked'); el.classList.add('map-scroll-unlocked');
+  }
+  document.querySelectorAll('[data-maplock="home"]').forEach(btn=>{
+    btn.textContent=(isMobile && homeMapDragUnlocked)?'锁定滑动':'解锁拖动';
+    btn.classList.toggle('active',isMobile && homeMapDragUnlocked);
+  });
+}
+document.querySelectorAll('[data-maplock="home"]').forEach(btn=>btn.addEventListener('click',()=>{homeMapDragUnlocked=!homeMapDragUnlocked;syncHomeMapLock();setTimeout(()=>map.invalidateSize(),80)}));
+window.addEventListener('resize',syncHomeMapLock);
+setTimeout(syncHomeMapLock,250);
+
 </script>
 </body>
 </html>

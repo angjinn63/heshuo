@@ -105,6 +105,22 @@
   .brand-card, .product-card, .floor-card { background:#f8f5f0; border:1px solid #eadfce; border-radius:14px; padding:20px; box-shadow:0 4px 12px rgba(0,0,0,.035); }
   .brand-card h3, .product-card h3, .floor-card h3 { color:#1a2a4a; font-size:20px; margin-bottom:10px; }
   .brand-card p, .product-card p, .floor-card p { color:#566176; font-size:14px; line-height:1.85; }
+
+  /* 户型图图片展示 */
+  .floor-card.has-image { padding:0; overflow:hidden; display:flex; flex-direction:column; background:#fffdf9; }
+  .floor-img-btn { width:100%; border:0; background:#fff; cursor:zoom-in; padding:0; display:block; border-bottom:1px solid #eadfce; }
+  .floor-img-btn img { width:100%; height:230px; object-fit:contain; display:block; background:#fff; padding:10px; }
+  .floor-copy { padding:18px 20px 20px; }
+  .floor-copy h3 { margin-bottom:9px; }
+  .floor-note { color:#7a7280; font-size:12px; line-height:1.7; margin-top:10px; }
+  .floor-modal { position:fixed; inset:0; z-index:3000; background:rgba(10,16,28,.78); display:none; align-items:center; justify-content:center; padding:22px; }
+  .floor-modal.active { display:flex; }
+  .floor-modal-card { width:min(960px,96vw); max-height:92vh; background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 20px 50px rgba(0,0,0,.35); }
+  .floor-modal-head { display:flex; justify-content:space-between; align-items:center; gap:14px; padding:14px 18px; background:linear-gradient(135deg,#1a2a4a,#2c3e5d); color:#d4af37; }
+  .floor-modal-head b { letter-spacing:1px; }
+  .floor-modal-close { border:1px solid rgba(212,175,55,.65); background:rgba(255,255,255,.08); color:#d4af37; border-radius:999px; padding:7px 12px; cursor:pointer; }
+  .floor-modal-card img { width:100%; max-height:78vh; object-fit:contain; display:block; background:#fff; padding:12px; }
+
   .pill-line { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
   .pill { display:inline-flex; padding:5px 10px; border-radius:999px; background:#fff; border:1px solid #eadfce; color:#8b7751; font-size:12px; }
 
@@ -310,6 +326,54 @@
     .mobile-mini-status span { font-size:10px; padding:5px 8px; }
     .leaflet-top.leaflet-left { top:98px; }
   }
+
+  @media (max-width:720px) {
+    .floor-img-btn img { height:180px; padding:7px; }
+    .floor-copy { padding:13px 14px 15px; }
+    .floor-modal { padding:10px; }
+    .floor-modal-card { width:98vw; max-height:90vh; }
+    .floor-modal-card img { max-height:74vh; padding:8px; }
+  }
+
+
+  /* FINAL COMPACT：嘉棠雅序手机端入口与信息密度 */
+  .hero-actions a{display:inline-flex;align-items:center;justify-content:center;text-align:center}
+  @media (max-width:720px){
+    .hero-actions a{min-width:120px;flex:1 1 calc(50% - 8px)}
+    .stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.stat-card{padding:9px 6px}.stat-card strong{font-size:18px}.stat-card span{font-size:10px;letter-spacing:0;line-height:1.25}
+    .brand-grid,.product-grid,.floor-grid,.amenity-grid{grid-template-columns:1fr 1fr;gap:8px}.brand-card,.product-card,.floor-card,.amenity-card{padding:10px;border-radius:11px}.brand-card h3,.product-card h3,.floor-card h3,.amenity-card h3{font-size:14px;margin-bottom:5px}.brand-card p,.product-card p,.floor-card p,.amenity-card p{font-size:11px;line-height:1.45}.pill{font-size:9.5px;padding:3px 6px}.pill-line{gap:4px;margin-top:6px}
+    .floor-img-btn img{height:145px}.floor-copy{padding:9px 10px}.floor-note{font-size:10px;line-height:1.35}
+  }
+  @media (max-width:390px){.brand-grid,.product-grid,.floor-grid,.amenity-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+
+
+/* V3 MOBILE MAP SAFE AREA + SCROLL LOCK */
+.map-lock-btn{display:none!important}
+@media(max-width:720px){
+  .map-lock-btn{display:inline-flex!important}
+  #map.map-scroll-locked,
+  #landMap.map-scroll-locked,
+  #compareLandMap.map-scroll-locked{touch-action:pan-y!important;cursor:grab}
+  #map.map-scroll-unlocked,
+  #landMap.map-scroll-unlocked,
+  #compareLandMap.map-scroll-unlocked{touch-action:none!important;cursor:move}
+  .leaflet-top.leaflet-left{top:auto!important;bottom:16px!important;left:10px!important}
+  .leaflet-left .leaflet-control{margin-left:0!important;margin-bottom:0!important}
+  .leaflet-control-zoom{box-shadow:0 4px 14px rgba(0,0,0,.22)!important;border-radius:10px!important;overflow:hidden!important}
+  .leaflet-control-zoom a{width:32px!important;height:32px!important;line-height:32px!important;font-size:17px!important}
+  .leaflet-popup-content{max-width:250px!important;font-size:12px!important;line-height:1.55!important}
+}
+
+@media(max-width:720px){
+  .mobile-map-toolbar{grid-template-columns:repeat(5,1fr)!important;padding:5px!important;gap:4px!important;left:8px!important;right:8px!important;top:8px!important}
+  .mobile-map-btn{font-size:10.5px!important;padding:7px 3px!important;line-height:1.05!important;border-radius:8px!important}
+  .mobile-category-strip{top:50px!important;padding:0 8px 4px!important}
+  .mobile-mini-status{bottom:10px!important;right:10px!important;left:auto!important;max-width:58%!important;align-items:flex-end!important}
+  .mobile-mini-status span{font-size:9.5px!important;padding:4px 6px!important}
+}
+@media(max-width:370px){.mobile-map-toolbar{grid-template-columns:repeat(3,1fr)!important}.mobile-category-strip{top:84px!important}}
+
 </style>
 </head>
 
@@ -345,6 +409,7 @@
       <a href="#mapSection">查看配套地图</a>
       <a href="#floorplans">查看户型</a>
       <a href="./jiatang_yaxu_land_compare.html">查看地块对比</a>
+      <a href="./jiatang_yaxu_vertical_compare_full_package_v4.html">查看纵向对比</a>
     </div>
   </div>
 </section>
@@ -449,6 +514,7 @@
         <button class="mobile-map-btn" data-basemap="standard" type="button">标准</button>
         <button class="mobile-map-btn" id="mobileFocusProject" type="button">项目</button>
         <button class="mobile-map-btn" id="mobileFitAll" type="button">全图</button>
+        <button class="mobile-map-btn map-lock-btn" data-maplock="amenity" type="button">解锁</button>
       </div>
       <div class="mobile-category-strip" id="mobileCategoryStrip" aria-label="手机地图分类筛选"></div>
       <div class="mobile-mini-status">
@@ -465,14 +531,41 @@
   <h2 class="section-title">户型鉴赏</h2>
   <p style="color:#5a6475;margin-bottom:18px;">以下为资料中的户型文字整理，仅对室内空间亮点做页面展示；设备平台、空调机位、外部构件、最终面积与交付以合同及政府审批文件为准。</p>
   <div class="floor-grid">
-    <div class="floor-card"><h3>雅境｜约99㎡</h3><p>三室两厅两卫。南向揽景、U型厨房、主卧尊境、全维收纳，适合主城首置与紧凑改善。</p><div class="pill-line"><span class="pill">三室</span><span class="pill">南向</span><span class="pill">U型厨房</span></div></div>
-    <div class="floor-card"><h3>雅悦｜约109㎡</h3><p>四室两厅两卫。朗阔宽厅、星级主卧、三四居灵动切换、全屋收纳，兼顾成长型家庭。</p><div class="pill-line"><span class="pill">四室</span><span class="pill">灵动切换</span><span class="pill">全屋收纳</span></div></div>
-    <div class="floor-card"><h3>雅逸｜约112㎡</h3><p>四室两厅两卫。朗阔宽厅与星级主卧组合，让会客、亲子、书房等功能更从容。</p><div class="pill-line"><span class="pill">四室</span><span class="pill">宽厅</span><span class="pill">主卧套感</span></div></div>
-    <div class="floor-card"><h3>雅观｜约123㎡</h3><p>小高臻境四室两厅两卫。朗境巨幕、星级套房、三四居灵动切换，面向进阶改善。</p><div class="pill-line"><span class="pill">小高层</span><span class="pill">巨幕视野</span><span class="pill">套房主卧</span></div></div>
-    <div class="floor-card"><h3>雅颂｜约123㎡</h3><p>洋房奢境四室两厅两卫。四叶草格局、朗境巨幕、星级套房、归藏有序，强调家庭私密与尺度。</p><div class="pill-line"><span class="pill">洋房</span><span class="pill">四叶草</span><span class="pill">归藏有序</span></div></div>
-    <div class="floor-card"><h3>雅集｜约139㎡</h3><p>四室两厅两卫。四叶草奢阔格局、巨幕峯境、主卧奢邸、井然丰藏，面向高阶改善家庭。</p><div class="pill-line"><span class="pill">139㎡</span><span class="pill">奢阔四室</span><span class="pill">主卧奢邸</span></div></div>
+    <div class="floor-card has-image">
+      <button class="floor-img-btn" type="button" onclick="openFloorImage('images/jiatang/floorplan-099-yajing.jpg','雅境｜约99㎡')"><img src="images/jiatang/floorplan-099-yajing.jpg" alt="雅境约99㎡户型图"></button>
+      <div class="floor-copy"><h3>雅境｜约99㎡</h3><p>三室两厅两卫。南向揽景、U型厨房、主卧尊境、全维收纳，适合主城首置与紧凑改善。</p><div class="pill-line"><span class="pill">三室</span><span class="pill">南向</span><span class="pill">U型厨房</span></div><div class="floor-note">点击户型图可查看大图。</div></div>
+    </div>
+    <div class="floor-card has-image">
+      <button class="floor-img-btn" type="button" onclick="openFloorImage('images/jiatang/floorplan-109-yayue.jpg','雅悦｜约109㎡')"><img src="images/jiatang/floorplan-109-yayue.jpg" alt="雅悦约109㎡户型图"></button>
+      <div class="floor-copy"><h3>雅悦｜约109㎡</h3><p>四室两厅两卫。朗阔宽厅、星级主卧、三四居灵动切换、全屋收纳，兼顾成长型家庭。</p><div class="pill-line"><span class="pill">四室</span><span class="pill">灵动切换</span><span class="pill">全屋收纳</span></div><div class="floor-note">点击户型图可查看大图。</div></div>
+    </div>
+    <div class="floor-card has-image">
+      <button class="floor-img-btn" type="button" onclick="openFloorImage('images/jiatang/floorplan-112-yayi.jpg','雅逸｜约112㎡')"><img src="images/jiatang/floorplan-112-yayi.jpg" alt="雅逸约112㎡户型图"></button>
+      <div class="floor-copy"><h3>雅逸｜约112㎡</h3><p>四室两厅两卫。朗阔宽厅与星级主卧组合，让会客、亲子、书房等功能更从容。</p><div class="pill-line"><span class="pill">四室</span><span class="pill">宽厅</span><span class="pill">主卧套感</span></div><div class="floor-note">点击户型图可查看大图。</div></div>
+    </div>
+    <div class="floor-card has-image">
+      <button class="floor-img-btn" type="button" onclick="openFloorImage('images/jiatang/floorplan-123-yaguan.jpg','雅观｜约123㎡')"><img src="images/jiatang/floorplan-123-yaguan.jpg" alt="雅观约123㎡户型图"></button>
+      <div class="floor-copy"><h3>雅观｜约123㎡</h3><p>小高臻境四室两厅两卫。朗境巨幕、星级套房、三四居灵动切换，面向进阶改善。</p><div class="pill-line"><span class="pill">小高层</span><span class="pill">巨幕视野</span><span class="pill">套房主卧</span></div><div class="floor-note">点击户型图可查看大图。</div></div>
+    </div>
+    <div class="floor-card has-image">
+      <button class="floor-img-btn" type="button" onclick="openFloorImage('images/jiatang/floorplan-123-yasong.jpg','雅颂｜约123㎡')"><img src="images/jiatang/floorplan-123-yasong.jpg" alt="雅颂约123㎡户型图"></button>
+      <div class="floor-copy"><h3>雅颂｜约123㎡</h3><p>洋房奢境四室两厅两卫。四叶草格局、朗境巨幕、星级套房、归藏有序，强调家庭私密与尺度。</p><div class="pill-line"><span class="pill">洋房</span><span class="pill">四叶草</span><span class="pill">归藏有序</span></div><div class="floor-note">点击户型图可查看大图。</div></div>
+    </div>
+    <div class="floor-card has-image">
+      <button class="floor-img-btn" type="button" onclick="openFloorImage('images/jiatang/floorplan-139-yaji.jpg','雅集｜约139㎡')"><img src="images/jiatang/floorplan-139-yaji.jpg" alt="雅集约139㎡户型图"></button>
+      <div class="floor-copy"><h3>雅集｜约139㎡</h3><p>四室两厅两卫。四叶草奢阔格局、巨幕峯境、主卧奢邸、井然丰藏，面向高阶改善家庭。</p><div class="pill-line"><span class="pill">139㎡</span><span class="pill">奢阔四室</span><span class="pill">主卧奢邸</span></div><div class="floor-note">点击户型图可查看大图。</div></div>
+    </div>
   </div>
 </section>
+
+
+<div class="floor-modal" id="floorModal" onclick="closeFloorImage(event)">
+  <div class="floor-modal-card" onclick="event.stopPropagation()">
+    <div class="floor-modal-head"><b id="floorModalTitle">户型图</b><button class="floor-modal-close" type="button" onclick="closeFloorImage()">关闭</button></div>
+    <img id="floorModalImg" src="" alt="户型图大图">
+  </div>
+</div>
+
 
 <section class="amenity-section" id="amenities">
   <h2 class="section-title">配套列表</h2>
@@ -491,6 +584,25 @@
 </div>
 
 <script>
+
+
+function openFloorImage(src, title) {
+  const modal = document.getElementById('floorModal');
+  const img = document.getElementById('floorModalImg');
+  const text = document.getElementById('floorModalTitle');
+  if(!modal || !img || !text) return;
+  img.src = src;
+  text.innerText = title || '户型图';
+  modal.classList.add('active');
+}
+function closeFloorImage() {
+  const modal = document.getElementById('floorModal');
+  if(modal) modal.classList.remove('active');
+}
+document.addEventListener('keydown', function(e) {
+  if(e.key === 'Escape') closeFloorImage();
+});
+
 const DATA = {
   "project": {
     "name": "北京建工·嘉棠雅序",
@@ -1019,6 +1131,35 @@ window.onload = function() {
   }, 180);
   setTimeout(() => projectMarker.openPopup(), 500);
 };
+
+
+
+/* V3：手机端默认锁定地图拖拽，保留页面上下滑；点击“解锁”后才拖动地图 */
+let amenityMapDragUnlocked=false;
+function syncAmenityMapLock(){
+  const el=document.getElementById('map');
+  if(!el || typeof map==='undefined') return;
+  const isMobile=window.matchMedia('(max-width:720px)').matches;
+  if(isMobile && !amenityMapDragUnlocked){
+    if(map.dragging) map.dragging.disable();
+    if(map.touchZoom) map.touchZoom.disable();
+    if(map.doubleClickZoom) map.doubleClickZoom.disable();
+    el.classList.add('map-scroll-locked'); el.classList.remove('map-scroll-unlocked');
+  }else{
+    if(map.dragging) map.dragging.enable();
+    if(map.touchZoom) map.touchZoom.enable();
+    if(map.doubleClickZoom) map.doubleClickZoom.enable();
+    el.classList.remove('map-scroll-locked'); el.classList.add('map-scroll-unlocked');
+  }
+  document.querySelectorAll('[data-maplock="amenity"]').forEach(btn=>{
+    btn.textContent=(isMobile && amenityMapDragUnlocked)?'锁定':'解锁';
+    btn.classList.toggle('active',isMobile && amenityMapDragUnlocked);
+  });
+}
+document.querySelectorAll('[data-maplock="amenity"]').forEach(btn=>btn.addEventListener('click',()=>{amenityMapDragUnlocked=!amenityMapDragUnlocked;syncAmenityMapLock();setTimeout(()=>map.invalidateSize(),80)}));
+window.addEventListener('resize',syncAmenityMapLock);
+setTimeout(syncAmenityMapLock,250);
+
 </script>
 </body>
 </html>
